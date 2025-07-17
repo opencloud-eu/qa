@@ -7,8 +7,12 @@ Simple script to send status notifications of woodpecker CI to a matrix channel.
    - `CI_REPO_NAME`
    - `CI_PIPELINE_NUMBER`
    - `CI_WOODPECKER_TOKEN`
+   - `CI_REPO_URL`
+   - `CI_COMMIT_MESSAGE`
+   - `CI_COMMIT_PULL_REQUEST` (optional) 
    - `MATRIX_HOME_SERVER`
    - `MATRIX_ROOM_ALIAS`
    - `MATRIX_USER`
    - `MATRIX_PASSWORD`
+
 2. `go run matrix-notification.go`

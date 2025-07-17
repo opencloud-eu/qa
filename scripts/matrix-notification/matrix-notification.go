@@ -5,6 +5,7 @@ import (
 	"github.com/caarlos0/env/v11"
 	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/format"
+	"net/url"
 	"os"
 	"strings"
 )
@@ -35,22 +36,23 @@ type PipelineResponse struct {
 }
 
 type Config struct {
-	WoodpeckerURL    string `env:"CI_WOODPECKER_URL"`
-	RepoID           int    `env:"CI_REPO_ID"`
-	RepoName         string `env:"CI_REPO_NAME"`
-	PipelineNumber   int    `env:"CI_PIPELINE_NUMBER"`
-	WoodpeckerToken  string `env:"CI_WOODPECKER_TOKEN"`
-	MatrixHomeServer string `env:"MATRIX_HOME_SERVER"`
-	MatrixRoomAlias  string `env:"MATRIX_ROOM_ALIAS"`
-	MatrixUser       string `env:"MATRIX_USER"`
-	MatrixPassword   string `env:"MATRIX_PASSWORD"`
+	WoodpeckerURL    string `env:"CI_WOODPECKER_URL,required"`
+	RepoID           int    `env:"CI_REPO_ID,required"`
+	RepoName         string `env:"CI_REPO_NAME,required"`
+	PipelineNumber   int    `env:"CI_PIPELINE_NUMBER,required"`
+	WoodpeckerToken  string `env:"CI_WOODPECKER_TOKEN,required"`
+	MatrixHomeServer string `env:"MATRIX_HOME_SERVER,required"`
+	MatrixRoomAlias  string `env:"MATRIX_ROOM_ALIAS,required"`
+	MatrixUser       string `env:"MATRIX_USER,required"`
+	MatrixPassword   string `env:"MATRIX_PASSWORD,required"`
+	RepoURL          string `env:"CI_REPO_URL,required"`
+	CommitMessage    string `env:"CI_COMMIT_MESSAGE,required"`
+	PRNumber         string `env:"CI_COMMIT_PULL_REQUEST"`
 }
 
 func main() {
 	var cfg Config
-	err := env.ParseWithOptions(&cfg, env.Options{
-		RequiredIfNoDef: true,
-	})
+	err := env.Parse(&cfg)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, err.Error()+"\n")
 		os.Exit(1)
@@ -67,7 +69,7 @@ func main() {
 		os.Exit(1)
 	}
 	allSuccess := true
-	message := ""
+	workflowMessage := ""
 	pipelineURL := fmt.Sprintf("%s/repos/%d/pipeline/%d", cfg.WoodpeckerURL, cfg.RepoID, cfg.PipelineNumber)
 
 	for _, wf := range woodpeckerResult.Workflows {
@@ -79,22 +81,29 @@ func main() {
 					failedChild = child.PID
 				}
 			}
-			message += fmt.Sprintf(" - Workflow [%s](%s/%d) failed 💥\n", wf.Name, pipelineURL, failedChild)
+			workflowMessage += fmt.Sprintf(" - Workflow [%s](%s/%d) failed 💥\n", wf.Name, pipelineURL, failedChild)
 		}
 	}
+	pipelineMessage := fmt.Sprintf(
+		"Pipeline [%s](%s) in the repo *%s*, triggered by '%s'",
+		woodpeckerResult.Title, pipelineURL, cfg.RepoName, woodpeckerResult.Author,
+	)
+
+	if cfg.PRNumber != "" {
+		repoUrl, _ := url.JoinPath(cfg.RepoURL, "pull", cfg.PRNumber)
+		pipelineMessage += fmt.Sprintf(" for PR [#%s](%s) -", cfg.PRNumber, repoUrl)
+	}
+	pipelineMessage += fmt.Sprintf(" commit '%s'", cfg.CommitMessage)
+
 	if allSuccess {
-		message = fmt.Sprintf(
-			"Pipeline [%s](%s) in the repo *%s* (triggered by %s) passed ✅\n",
-			woodpeckerResult.Title, pipelineURL, cfg.RepoName, woodpeckerResult.Author,
-		)
+		pipelineMessage += " passed ✅\n"
 	} else {
-		message = fmt.Sprintf(
-			"Pipeline [%s](%s) in the repo *%s* (triggered by %s) failed ❌\n%s",
-			woodpeckerResult.Title, pipelineURL, cfg.RepoName, woodpeckerResult.Author, message,
+		pipelineMessage += fmt.Sprintf(
+			" failed ❌\n%s", workflowMessage,
 		)
 	}
 
-	err = sendMessage(cfg, message)
+	err = sendMessage(cfg, pipelineMessage)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, err.Error()+"\n")
 		os.Exit(1)
