@@ -31,7 +31,7 @@ type Workflow struct {
 
 type PipelineResponse struct {
 	Author    string     `json:"author"`
-	Title     string     `json:"title"`
+	Message   string     `json:"message"`
 	Workflows []Workflow `json:"workflows"`
 }
 
@@ -46,7 +46,6 @@ type Config struct {
 	MatrixUser       string `env:"MATRIX_USER,required"`
 	MatrixPassword   string `env:"MATRIX_PASSWORD,required"`
 	RepoURL          string `env:"CI_REPO_URL,required"`
-	CommitMessage    string `env:"CI_COMMIT_MESSAGE,required"`
 	PRNumber         string `env:"CI_COMMIT_PULL_REQUEST"`
 }
 
@@ -85,21 +84,21 @@ func main() {
 		}
 	}
 	pipelineMessage := fmt.Sprintf(
-		"Pipeline [%s](%s) in the repo *%s*, triggered by '%s'",
-		woodpeckerResult.Title, pipelineURL, cfg.RepoName, woodpeckerResult.Author,
+		"Pipeline [#%d](%s) in the repo *%s*, triggered by '%s'",
+		cfg.PipelineNumber, pipelineURL, cfg.RepoName, woodpeckerResult.Author,
 	)
 
 	if cfg.PRNumber != "" {
 		repoUrl, _ := url.JoinPath(cfg.RepoURL, "pull", cfg.PRNumber)
 		pipelineMessage += fmt.Sprintf(" for PR [#%s](%s) -", cfg.PRNumber, repoUrl)
 	}
-	pipelineMessage += fmt.Sprintf(" commit '%s'", cfg.CommitMessage)
+	pipelineMessage += fmt.Sprintf(" commit '%s'", strings.Split(woodpeckerResult.Message, "\n")[0])
 
 	if allSuccess {
-		pipelineMessage += " passed ✅\n"
+		pipelineMessage = fmt.Sprintf("✅ %s passed\n", pipelineMessage)
 	} else {
-		pipelineMessage += fmt.Sprintf(
-			" failed ❌\n%s", workflowMessage,
+		pipelineMessage = fmt.Sprintf(
+			"❌ %s failed\n%s", pipelineMessage, workflowMessage,
 		)
 	}
 
