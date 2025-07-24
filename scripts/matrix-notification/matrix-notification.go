@@ -85,8 +85,8 @@ func main() {
 		}
 	}
 	pipelineMessage := fmt.Sprintf(
-		"Pipeline [%s](%s) in the repo *%s*, triggered by '%s'",
-		woodpeckerResult.Title, pipelineURL, cfg.RepoName, woodpeckerResult.Author,
+		"Pipeline #%d ([%s](%s)) in the repo *%s*, triggered by '%s'",
+		cfg.PipelineNumber, woodpeckerResult.Title, pipelineURL, cfg.RepoName, woodpeckerResult.Author,
 	)
 
 	if cfg.PRNumber != "" {
