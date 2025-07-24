@@ -95,10 +95,10 @@ func main() {
 	pipelineMessage += fmt.Sprintf(" commit '%s'", strings.Split(woodpeckerResult.Message, "\n")[0])
 
 	if allSuccess {
-		pipelineMessage += " passed ✅\n"
+		pipelineMessage = fmt.Sprintf("✅ %s passed\n", pipelineMessage)
 	} else {
-		pipelineMessage += fmt.Sprintf(
-			" failed ❌\n%s", workflowMessage,
+		pipelineMessage = fmt.Sprintf(
+			"❌ %s failed\n%s", pipelineMessage, workflowMessage,
 		)
 	}
 
