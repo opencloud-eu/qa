@@ -2,19 +2,21 @@ package main
 
 import (
 	"context"
-	"github.com/caarlos0/env/v11"
-	"maunium.net/go/mautrix/event"
-	"maunium.net/go/mautrix/format"
 	"net/url"
 	"os"
 	"strings"
+
+	"github.com/caarlos0/env/v11"
+	"maunium.net/go/mautrix/event"
+	"maunium.net/go/mautrix/format"
 )
 import (
 	"encoding/json"
 	"fmt"
 	"io"
-	mautrix "maunium.net/go/mautrix"
 	"net/http"
+
+	mautrix "maunium.net/go/mautrix"
 )
 
 type WorkflowChild struct {
@@ -30,9 +32,10 @@ type Workflow struct {
 }
 
 type PipelineResponse struct {
-	Author    string     `json:"author"`
+	Sender    string     `json:"sender"`
 	Message   string     `json:"message"`
 	Workflows []Workflow `json:"workflows"`
+	Event     string     `json:"event"`
 }
 
 type Config struct {
@@ -85,14 +88,16 @@ func main() {
 	}
 	pipelineMessage := fmt.Sprintf(
 		"Pipeline [#%d](%s) in the repo *%s*, triggered by '%s'",
-		cfg.PipelineNumber, pipelineURL, cfg.RepoName, woodpeckerResult.Author,
+		cfg.PipelineNumber, pipelineURL, cfg.RepoName, woodpeckerResult.Sender,
 	)
 
 	if cfg.PRNumber != "" {
 		repoUrl, _ := url.JoinPath(cfg.RepoURL, "pull", cfg.PRNumber)
 		pipelineMessage += fmt.Sprintf(" for PR [#%s](%s) -", cfg.PRNumber, repoUrl)
 	}
-	pipelineMessage += fmt.Sprintf(" commit '%s'", strings.Split(woodpeckerResult.Message, "\n")[0])
+	if woodpeckerResult.Event != "cron" {
+		pipelineMessage += fmt.Sprintf(" commit '%s'", strings.Split(woodpeckerResult.Message, "\n")[0])
+	}
 
 	if allSuccess {
 		pipelineMessage = fmt.Sprintf("✅ %s passed\n", pipelineMessage)
