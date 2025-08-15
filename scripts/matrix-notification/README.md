@@ -14,5 +14,6 @@ Simple script to send status notifications of woodpecker CI to a matrix channel.
    - `MATRIX_ROOM_ALIAS`
    - `MATRIX_USER`
    - `MATRIX_PASSWORD`
+   - `MESSAGE_SUFFIX_WHEN_FAILED` (optional message when the pipeline failed, e.g. to ping a specific person)
 
 2. `go run matrix-notification.go`
