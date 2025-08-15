@@ -42,6 +42,7 @@ type Config struct {
 	WoodpeckerURL    string `env:"CI_WOODPECKER_URL,required"`
 	RepoID           int    `env:"CI_REPO_ID,required"`
 	RepoName         string `env:"CI_REPO_NAME,required"`
+	RepoNameSuffix   string `env:"CI_REPO_NAME_SUFFIX"`
 	PipelineNumber   int    `env:"CI_PIPELINE_NUMBER,required"`
 	WoodpeckerToken  string `env:"CI_WOODPECKER_TOKEN,required"`
 	MatrixHomeServer string `env:"MATRIX_HOME_SERVER,required"`
@@ -87,8 +88,8 @@ func main() {
 		}
 	}
 	pipelineMessage := fmt.Sprintf(
-		"Pipeline [#%d](%s) in the repo *%s*, triggered by '%s'",
-		cfg.PipelineNumber, pipelineURL, cfg.RepoName, woodpeckerResult.Sender,
+		"Pipeline [#%d](%s) in the repo *%s*%s, triggered by '%s'",
+		cfg.PipelineNumber, pipelineURL, cfg.RepoName, cfg.RepoNameSuffix, woodpeckerResult.Sender,
 	)
 
 	if cfg.PRNumber != "" {
