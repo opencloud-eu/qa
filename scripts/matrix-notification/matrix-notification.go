@@ -92,6 +92,10 @@ func main() {
 		cfg.PipelineNumber, pipelineURL, cfg.RepoName, cfg.RepoNameSuffix, woodpeckerResult.Sender,
 	)
 
+	if woodpeckerResult.Event == "cron" {
+		pipelineMessage = "🕜 Cron-" + pipelineMessage
+	}
+
 	if cfg.PRNumber != "" {
 		repoUrl, _ := url.JoinPath(cfg.RepoURL, "pull", cfg.PRNumber)
 		pipelineMessage += fmt.Sprintf(" for PR [#%s](%s) -", cfg.PRNumber, repoUrl)
