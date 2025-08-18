@@ -39,18 +39,19 @@ type PipelineResponse struct {
 }
 
 type Config struct {
-	WoodpeckerURL    string `env:"CI_WOODPECKER_URL,required"`
-	RepoID           int    `env:"CI_REPO_ID,required"`
-	RepoName         string `env:"CI_REPO_NAME,required"`
-	RepoNameSuffix   string `env:"CI_REPO_NAME_SUFFIX"`
-	PipelineNumber   int    `env:"CI_PIPELINE_NUMBER,required"`
-	WoodpeckerToken  string `env:"CI_WOODPECKER_TOKEN,required"`
-	MatrixHomeServer string `env:"MATRIX_HOME_SERVER,required"`
-	MatrixRoomAlias  string `env:"MATRIX_ROOM_ALIAS,required"`
-	MatrixUser       string `env:"MATRIX_USER,required"`
-	MatrixPassword   string `env:"MATRIX_PASSWORD,required"`
-	RepoURL          string `env:"CI_REPO_URL,required"`
-	PRNumber         string `env:"CI_COMMIT_PULL_REQUEST"`
+	WoodpeckerURL           string `env:"CI_WOODPECKER_URL,required"`
+	RepoID                  int    `env:"CI_REPO_ID,required"`
+	RepoName                string `env:"CI_REPO_NAME,required"`
+	RepoNameSuffix          string `env:"CI_REPO_NAME_SUFFIX"`
+	PipelineNumber          int    `env:"CI_PIPELINE_NUMBER,required"`
+	WoodpeckerToken         string `env:"CI_WOODPECKER_TOKEN,required"`
+	MatrixHomeServer        string `env:"MATRIX_HOME_SERVER,required"`
+	MatrixRoomAlias         string `env:"MATRIX_ROOM_ALIAS,required"`
+	MatrixUser              string `env:"MATRIX_USER,required"`
+	MatrixPassword          string `env:"MATRIX_PASSWORD,required"`
+	RepoURL                 string `env:"CI_REPO_URL,required"`
+	PRNumber                string `env:"CI_COMMIT_PULL_REQUEST"`
+	MessageSuffixWhenFailed string `env:"MESSAGE_SUFFIX_WHEN_FAILED"`
 }
 
 func main() {
@@ -110,6 +111,11 @@ func main() {
 		pipelineMessage = fmt.Sprintf(
 			"❌ %s failed\n%s", pipelineMessage, workflowMessage,
 		)
+		if cfg.MessageSuffixWhenFailed != "" {
+			pipelineMessage = fmt.Sprintf(
+				"%s\n%s", pipelineMessage, cfg.MessageSuffixWhenFailed,
+			)
+		}
 	}
 
 	err = sendMessage(cfg, pipelineMessage)
