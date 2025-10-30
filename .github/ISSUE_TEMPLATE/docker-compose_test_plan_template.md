@@ -1,3 +1,12 @@
+---
+name: OpenCloud Compose Test Plan
+about: Create a Test Plan for the "docker-comose" stack
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 # OpenCloud Compose Test Plan
 
 ## Overview
