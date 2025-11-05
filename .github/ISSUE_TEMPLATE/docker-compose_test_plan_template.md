@@ -25,12 +25,13 @@ This document outlines a comprehensive test plan for the OpenCloud Compose proje
 ### Test Domains
 For local testing, add the following entries to `/etc/hosts`:
 ```
-127.0.0.1 cloud.opencloud.test
-127.0.0.1 traefik.opencloud.test
-127.0.0.1 collabora.opencloud.test
-127.0.0.1 wopiserver.opencloud.test
-127.0.0.1 keycloak.opencloud.test
-127.0.0.1 mail.opencloud.test
+127.0.0.1 cloud.opencloud.test cloud
+127.0.0.1 traefik.opencloud.test traefik
+127.0.0.1 collabora.opencloud.test collabora
+127.0.0.1 wopiserver.opencloud.test wopiserver
+127.0.0.1 keycloak.opencloud.test keycloak
+127.0.0.1 mail.opencloud.test mail
+127.0.0.1 minio.opencloud.test minio
 ```
 
 ## Test Scenarios
@@ -44,7 +45,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `INSECURE=true`
 
@@ -55,7 +56,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 4. Wait for all containers to be healthy (timeout: 5 minutes)
 5. Verify OpenCloud container is running
 6. Verify Traefik container is running
-7. Access `https://cloud.opencloud.test`
+7. Access https://cloud.opencloud.test
 8. Login with username `admin` and configured password
 
 **Expected Results:**
@@ -73,32 +74,6 @@ docker compose down -v
 
 ---
 
-#### Test 1.2: OpenCloud with Built-in LDAP Only
-**Configuration:**
-```bash
-docker compose -f docker-compose.yml up -d
-```
-
-**Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
-- `OC_DOMAIN=cloud.opencloud.test`
-- `INSECURE=true`
-
-**Test Steps:**
-1. Start OpenCloud without Traefik
-2. Verify container starts successfully
-3. Check logs for successful LDAP initialization
-4. Verify admin user creation in logs
-
-**Expected Results:**
-- OpenCloud container starts without errors
-- Built-in LDAP initializes successfully
-- Admin user created with configured password
-
-- [ ] Check passed or [Create issue](https://github.com/opencloud-eu/opencloud-compose/issues/new?title=Test%201.2%20Failed:%20OpenCloud%20with%20Built-in%20LDAP%20Only&body=**Parent%20Issue:**%20%23%0A%0A**Test%20ID:**%20Test%201.2%0A**Test%20Name:**%20OpenCloud%20with%20Built-in%20LDAP%20Only%0A**Date:**%20%0A**Tester:**%20%0A**Status:**%20FAILED%0A%0A**Issue%20Description:**%0A%0A**Steps%20to%20Reproduce:**%0A1.%20%0A%0A**Logs/Screenshots:**%0A%0A**Environment:**%0A-%20Docker%20version:%20%0A-%20Docker%20Compose%20version:%20%0A-%20OpenCloud%20version:%20&labels=Type:Bug)
-
----
-
 ### 2. Web Office Integration Tests
 
 #### Test 2.1: OpenCloud with Collabora Online
@@ -108,7 +83,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:tr
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `COLLABORA_DOMAIN=collabora.opencloud.test`
 - `WOPISERVER_DOMAIN=wopiserver.opencloud.test`
@@ -120,14 +95,15 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:tr
 
 **Test Steps:**
 1. Deploy full stack with Collabora
-2. Verify all containers start (opencloud, collabora, wopiserver, traefik)
+2. Verify all containers start (opencloud, collabora, wopiserver/collaboration, traefik)
 3. Login to OpenCloud as admin
-4. Create a new text document
-5. Verify Collabora editor opens
-6. Type text and save document
-7. Close editor and reopen document
-8. Access Collabora admin panel at `https://collabora.opencloud.test/browser/dist/admin/admin.html`
-9. Verify WOPI server connectivity
+4. Access and accept self-signed cert in browser: https://collabora.opencloud.test/
+5. Create a new text document in OpenCloud
+6. Verify Collabora editor opens
+7. Type text and save document
+8. Close editor and reopen document
+9. Access Collabora admin panel at https://collabora.opencloud.test/browser/dist/admin/admin.html
+10. Verify WOPI server connectivity
 
 **Expected Results:**
 - Collabora container starts successfully
@@ -147,7 +123,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:tr
 #### Test 3.1: OpenCloud with Keycloak and LDAP (Shared User Directory)
 **Configuration:**
 ```bash
-COMPOSE_FILE=docker-compose.yml:idm/ldap-keycloak.yml:traefik/opencloud.yml:traefik/ldap-keycloak.yml
+COMPOSE_FILE=docker-compose.yml:idm/ldap-keycloak.yml:traefik/opencloud.yml:traefik/ldap-keycloak.yml:testing/external-keycloak.yml
 ```
 
 **Environment Variables:**
@@ -164,7 +140,7 @@ COMPOSE_FILE=docker-compose.yml:idm/ldap-keycloak.yml:traefik/opencloud.yml:trae
 1. Deploy OpenCloud with Keycloak and LDAP
 2. Verify all containers start (opencloud, ldap-server, postgres, keycloak, traefik)
 3. Wait for Keycloak realm import to complete
-4. Access Keycloak admin console at `https://keycloak.opencloud.test`
+4. Access Keycloak admin console at https://keycloak.opencloud.test
 5. Login to Keycloak with admin credentials
 6. Verify OpenCloud realm exists
 7. Check LDAP user federation is configured
@@ -203,7 +179,7 @@ COMPOSE_FILE=docker-compose.yml:idm/external-idp.yml:traefik/opencloud.yml
 3. Verify LDAP server starts with write enabled
 4. Access OpenCloud login page
 5. Redirect to external IDP for authentication
-6. Login with external IDP user
+6. Login with external IDP user (e.g. **dennis** - **demo**)
 7. Verify user is auto-provisioned in OpenCloud LDAP
 8. Check user can access OpenCloud dashboard
 9. Verify account edit link redirects to external IDP
@@ -224,11 +200,11 @@ COMPOSE_FILE=docker-compose.yml:idm/external-idp.yml:traefik/opencloud.yml
 #### Test 4.1: OpenCloud with S3 Storage (MinIO)
 **Configuration:**
 ```bash
-COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml
+COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml:testing/minio.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `DECOMPOSEDS3_ENDPOINT=http://minio:9000`
 - `DECOMPOSEDS3_REGION=default`
@@ -267,7 +243,7 @@ COMPOSE_FILE=docker-compose.yml:search/tika.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `TIKA_IMAGE=apache/tika:latest-full`
 - `INSECURE=true`
@@ -301,7 +277,7 @@ COMPOSE_FILE=docker-compose.yml:monitoring/monitoring.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `INSECURE=true`
 
@@ -338,22 +314,26 @@ COMPOSE_FILE=docker-compose.yml:radicale/radicale.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `RADICALE_DOCKER_IMAGE=opencloudeu/radicale`
 - `RADICALE_DOCKER_TAG=latest`
 - `INSECURE=true`
 
 **Test Steps:**
-1. Deploy OpenCloud with Radicale
-2. Verify Radicale container starts
-3. Login to OpenCloud
-4. Access calendar interface
-5. Create a calendar event
-6. Access contacts interface
-7. Create a contact entry
-8. Test CalDAV endpoint with calendar client
-9. Test CardDAV endpoint with contacts client
+1. Uncomment `/caldav/.web` section in `config/opencloud/proxy.yaml`
+2. Deploy OpenCloud with Radicale
+3. Verify Radicale container starts
+4. Login to OpenCloud
+5. Create test user
+6. Login as test user
+7. Create App Token
+8. Access calendar interface via https://cloud.opencloud.test/caldav/.web
+9. Login via test user and their App Token
+10. Test CalDAV endpoint with calendar client
+11. Test CardDAV endpoint with contacts client
+12. Create a calendar event
+13. Access contacts interface
 
 **Expected Results:**
 - Radicale container starts successfully
@@ -375,13 +355,13 @@ COMPOSE_FILE=docker-compose.yml:external-proxy/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 
 **Test Steps:**
 1. Deploy OpenCloud with external proxy configuration
 2. Verify port 9200 is exposed
-3. Access OpenCloud via `http://localhost:9200`
+3. Access OpenCloud via http://localhost:9200
 4. Configure external reverse proxy (Nginx/Caddy) to forward to port 9200
 5. Access OpenCloud through external proxy
 6. Test all basic functionality through proxy
@@ -402,7 +382,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:external-proxy/opencloud
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `COLLABORA_DOMAIN=collabora.opencloud.test`
 - `WOPISERVER_DOMAIN=wopiserver.opencloud.test`
@@ -434,7 +414,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.example.com` (real domain)
 - `TRAEFIK_ACME_MAIL=admin@example.com`
 - `TRAEFIK_SERVICES_TLS_CONFIG=tls.certresolver=letsencrypt`
@@ -470,7 +450,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `TRAEFIK_SERVICES_TLS_CONFIG=tls=true`
 - `TRAEFIK_CERTS_DIR=./certs`
@@ -506,7 +486,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `START_ADDITIONAL_SERVICES=notifications`
 - `SMTP_HOST=smtp.example.com`
@@ -544,7 +524,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `START_ADDITIONAL_SERVICES=antivirus`
 - `ANTIVIRUS_MAX_SCAN_SIZE=100MB`
@@ -579,7 +559,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `DEMO_USERS=true`
 - `INSECURE=true`
@@ -697,7 +677,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - Uses default Docker volumes
 
@@ -727,7 +707,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `OC_CONFIG_DIR=/tmp/opencloud-test/config`
 - `OC_DATA_DIR=/tmp/opencloud-test/data`
@@ -805,7 +785,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 **Test Steps:**
 1. Enable Traefik dashboard and access logs
 2. Deploy stack
-3. Access Traefik dashboard at `https://traefik.opencloud.test`
+3. Access Traefik dashboard at https://traefik.opencloud.test
 4. Login with configured credentials
 5. Verify dashboard displays services and routers
 6. Generate traffic to OpenCloud
@@ -863,7 +843,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
-- `INITIAL_ADMIN_PASSWORD=test123!Admin`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_PASSWORD_POLICY_DISABLED=false`
 - `OC_PASSWORD_POLICY_MIN_CHARACTERS=8`
 - `OC_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS=1`
@@ -967,26 +947,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 
 ---
 
-### 16. Network and Connectivity Tests
-
-#### Test 16.1: Multi-Network Configuration
-**Test Steps:**
-1. Create custom network: `docker network create custom-net`
-2. Add services to multiple networks
-3. Verify inter-service communication
-4. Test isolation between networks
-5. Verify external access through Traefik
-
-**Expected Results:**
-- Services communicate within opencloud-net
-- Network isolation works correctly
-- Traefik properly routes between networks
-
-- [ ] Check passed or [Create issue](https://github.com/opencloud-eu/opencloud-compose/issues/new?title=Test%2016.1%20Failed:%20Multi-Network%20Configuration&body=**Parent%20Issue:**%20%23%0A%0A**Test%20ID:**%20Test%2016.1%0A**Test%20Name:**%20Multi-Network%20Configuration%0A**Date:**%20%0A**Tester:**%20%0A**Status:**%20FAILED%0A%0A**Issue%20Description:**%0A%0A**Steps%20to%20Reproduce:**%0A1.%20%0A%0A**Logs/Screenshots:**%0A%0A**Environment:**%0A-%20Docker%20version:%20%0A-%20Docker%20Compose%20version:%20%0A-%20OpenCloud%20version:%20&labels=Type:Bug)
-
----
-
-#### Test 16.2: DNS Resolution Between Services
+#### Test 16: DNS Resolution Between Services
 **Test Steps:**
 1. Deploy full stack
 2. Exec into OpenCloud container
@@ -1077,7 +1038,7 @@ Consider automating the following tests:
 - Test 1.1: Basic deployment smoke test
 - Test 1.2: Built-in LDAP validation
 - Test 12.1: Data persistence validation
-- Test 16.2: DNS resolution checks
+- Test 16: DNS resolution checks
 
 Tools for automation:
 - Docker Compose for orchestration
