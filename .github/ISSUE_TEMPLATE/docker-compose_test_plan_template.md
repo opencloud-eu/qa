@@ -520,7 +520,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 #### Test 10.2: Antivirus Scanning with ClamAV
 **Configuration:**
 ```bash
-COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
+COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml:antivirus/clamav.yml
 ```
 
 **Environment Variables:**
