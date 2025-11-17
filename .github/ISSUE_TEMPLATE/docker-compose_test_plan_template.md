@@ -200,7 +200,7 @@ COMPOSE_FILE=docker-compose.yml:idm/external-idp.yml:traefik/opencloud.yml
 #### Test 4.1: OpenCloud with S3 Storage (MinIO)
 **Configuration:**
 ```bash
-COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml:testing/minio.yml
+COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml
 ```
 
 **Environment Variables:**
@@ -214,15 +214,38 @@ COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml:t
 - `INSECURE=true`
 
 **Test Steps:**
-1. Deploy OpenCloud with S3 storage backend
-2. Verify MinIO container starts
-3. Verify OpenCloud connects to MinIO
-4. Login to OpenCloud
-5. Upload a test file
-6. Verify file is stored in S3 bucket
-7. Download the file
-8. Delete the file
-9. Verify file is removed from S3
+1. Start OpenCloud
+```bash
+   docker-compose up -d
+```
+2. Identify Docker network
+```bash
+   docker network ls
+```
+3. Start MinIO in the same network
+```bash
+   docker run -d \
+    --name minio \
+    --network opencloud-compose_opencloud-net \
+    -p 9000:9000 \
+    -p 9001:9001 \
+    -v minio-data:/data \
+    -e MINIO_ROOT_USER=opencloud \
+    -e MINIO_ROOT_PASSWORD=opencloud-secret-key \
+    minio/minio server /data --console-address ":9001"
+```
+4. Verify that the MinIO container is running.
+5. Verify that OpenCloud connects to MinIO.
+6. Log in to OpenCloud.
+7. Upload a test file.
+8. Verify that the file is stored in the S3 bucket.
+9. Download the file.
+10. Delete the file.
+11. Verify that the file is deleted from S3.
+12. Create a project space with the file.
+13. Verify that the space is stored in the S3 bucket.
+14. Disconnect and delete the space.
+15. Verify that the space is deleted from S3.
 
 **Expected Results:**
 - MinIO container starts successfully
