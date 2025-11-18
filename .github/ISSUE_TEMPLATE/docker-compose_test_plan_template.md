@@ -232,7 +232,11 @@ COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml
     -v minio-data:/data \
     -e MINIO_ROOT_USER=opencloud \
     -e MINIO_ROOT_PASSWORD=opencloud-secret-key \
-    minio/minio server /data --console-address ":9001"
+    --privileged \
+    --user "root" \
+    --entrypoint="" \
+    alpine/minio:latest-release \
+    sh -c "mkdir -p /data/opencloud-bucket && minio server --console-address ':9001' /data"
 ```
 4. Verify that the MinIO container is running.
 5. Verify that OpenCloud connects to MinIO.
