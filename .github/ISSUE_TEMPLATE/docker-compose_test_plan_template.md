@@ -300,7 +300,7 @@ COMPOSE_FILE=docker-compose.yml:search/tika.yml:traefik/opencloud.yml
 #### Test 6.1: OpenCloud with Monitoring Enabled
 **Configuration:**
 ```bash
-COMPOSE_FILE=docker-compose.yml:monitoring/monitoring.yml:traefik/opencloud.yml
+COMPOSE_FILE=docker-compose.yml:monitoring/monitoring.yml:traefik/opencloud.yml:monitoring/monitoring-collaboration.yml:weboffice/collabora.yml
 ```
 
 **Environment Variables:**
@@ -311,11 +311,11 @@ COMPOSE_FILE=docker-compose.yml:monitoring/monitoring.yml:traefik/opencloud.yml
 **Test Steps:**
 1. Create external network: `docker network create opencloud-net`
 2. Deploy OpenCloud with monitoring
-3. Access metrics endpoint: `http://localhost:9205/metrics`
+3. Access metrics endpoint: `docker exec <opencloud_container_id> curl http://localhost:9205/metrics`
 4. Verify Prometheus-compatible metrics are returned
 5. Perform operations in OpenCloud (login, file upload, etc.)
 6. Check metrics reflect the operations
-7. Verify collaboration metrics at `http://localhost:9304/metrics`
+7. Verify collaboration metrics at `docker exec <opencloud_container_id> curl http://localhost:9304/metrics`
 
 **Expected Results:**
 - Metrics endpoints are accessible
