@@ -516,8 +516,8 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `INITIAL_ADMIN_PASSWORD=adminsecret`
 - `OC_DOMAIN=cloud.opencloud.test`
 - `START_ADDITIONAL_SERVICES=notifications`
-- `SMTP_HOST=smtp.example.com`
-- `SMTP_PORT=587`
+- `SMTP_HOST=inbucket`
+- `SMTP_PORT=2500`
 - `SMTP_SENDER=OpenCloud <noreply@example.com>`
 - `SMTP_USERNAME=smtp_user`
 - `SMTP_PASSWORD=smtp_pass`
@@ -526,9 +526,23 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `INSECURE=true`
 
 **Test Steps:**
-1. Configure SMTP settings
-2. Enable notifications service
-3. Deploy OpenCloud
+1. Start OpenCloud
+```bash
+   docker-compose up -d
+```
+2. Identify Docker network
+```bash
+   docker network ls
+```
+3. Start inbucket in the same network
+```bash
+   docker run -d \
+   -p9000:9000 \
+   -p2500:2500 \
+   --name inbucket \
+   --network opencloud-compose_opencloud-net \
+   inbucket/inbucket
+```
 4. Login and enable email notifications in settings
 5. Trigger a notification event (share file)
 6. Verify email is sent
