@@ -655,7 +655,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:idm/ldap-keycloak.yml:se
 **Test Steps:**
 1. Create external network: `docker network create opencloud-net`
 2. Deploy full production stack
-3. Verify all containers start (12+ containers)
+3. Verify all containers start (9 containers)
 4. Login to Keycloak admin console
 5. Create test users in Keycloak
 6. Login to OpenCloud with Keycloak user
