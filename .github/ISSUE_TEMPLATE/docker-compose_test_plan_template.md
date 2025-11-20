@@ -502,6 +502,24 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 
 - [ ] Check passed or [Create issue](https://github.com/opencloud-eu/opencloud-compose/issues/new?title=Test%209.2%20Failed:%20Custom%20Certificate%20Configuration&body=**Parent%20Issue:**%20%23%0A%0A**Test%20ID:**%20Test%209.2%0A**Test%20Name:**%20Custom%20Certificate%20Configuration%20(Development)%0A**Date:**%20%0A**Tester:**%20%0A**Status:**%20FAILED%0A%0A**Issue%20Description:**%0A%0A**Steps%20to%20Reproduce:**%0A1.%20%0A%0A**Logs/Screenshots:**%0A%0A**Environment:**%0A-%20Docker%20version:%20%0A-%20Docker%20Compose%20version:%20%0A-%20OpenCloud%20version:%20&labels=Type:Bug)
 
+**Clean-up after the test:**
+
+```bash
+docker-compose down -v
+```
+
+```bash
+rm -f certs/opencloud.test.crt certs/opencloud.test.key
+```
+
+```bash
+rm -f config/traefik/dynamic/certs.yml
+```
+
+```bash
+mkcert -uninstall
+```
+
 ---
 
 ### 10. Additional Services Tests
