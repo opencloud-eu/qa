@@ -698,35 +698,6 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:idm/ldap-keycloak.yml:se
 
 ---
 
-#### Test 11.2: High Availability Test (Collaboration Service Scaling)
-**Configuration:**
-```bash
-COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:traefik/collabora.yml
-```
-
-**Test Steps:**
-1. Deploy OpenCloud with Collabora
-2. Scale collaboration service: `docker compose up -d --scale collaboration=3`
-3. Verify all collaboration instances are running
-4. Open multiple documents simultaneously from different browsers
-5. Verify load is distributed across instances
-6. Stop one collaboration instance
-7. Verify remaining instances continue serving requests
-8. Create new documents during instance failure
-9. Restart stopped instance
-10. Verify it rejoins the pool
-
-**Expected Results:**
-- Multiple collaboration instances start successfully
-- Load balancing distributes requests
-- Service continues during instance failures
-- No data loss or corruption
-- Automatic recovery when instances restart
-
-- [ ] Check passed or [Create issue](https://github.com/opencloud-eu/opencloud-compose/issues/new?title=Test%2011.2%20Failed:%20High%20Availability%20Test&body=**Parent%20Issue:**%20%23%0A%0A**Test%20ID:**%20Test%2011.2%0A**Test%20Name:**%20High%20Availability%20Test%20(Collaboration%20Service%20Scaling)%0A**Date:**%20%0A**Tester:**%20%0A**Status:**%20FAILED%0A%0A**Issue%20Description:**%0A%0A**Steps%20to%20Reproduce:**%0A1.%20%0A%0A**Logs/Screenshots:**%0A%0A**Environment:**%0A-%20Docker%20version:%20%0A-%20Docker%20Compose%20version:%20%0A-%20OpenCloud%20version:%20&labels=Type:Bug)
-
----
-
 ### 12. Persistence and Data Integrity Tests
 
 #### Test 12.1: Data Persistence with Docker Volumes
@@ -895,52 +866,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:tr
 
 ---
 
-### 15. Upgrade and Migration Tests
-
-#### Test 15.1: Version Upgrade Test
-**Configuration:**
-```bash
-COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
-```
-
-**Test Steps:**
-1. Deploy with specific version tag: `OC_DOCKER_TAG=1.0.0`
-2. Create test data
-3. Stop containers
-4. Update to newer version: `OC_DOCKER_TAG=1.1.0`
-5. Start containers: `docker compose up -d`
-6. Monitor logs for migration processes
-7. Verify data integrity
-8. Test all functionality post-upgrade
-
-**Expected Results:**
-- Upgrade completes without errors
-- Data migrations run successfully
-- All existing data remains accessible
-- New version features are available
-
-- [ ] Check passed or [Create issue](https://github.com/opencloud-eu/opencloud-compose/issues/new?title=Test%2015.1%20Failed:%20Version%20Upgrade%20Test&body=**Parent%20Issue:**%20%23%0A%0A**Test%20ID:**%20Test%2015.1%0A**Test%20Name:**%20Version%20Upgrade%20Test%0A**Date:**%20%0A**Tester:**%20%0A**Status:**%20FAILED%0A%0A**Issue%20Description:**%0A%0A**Steps%20to%20Reproduce:**%0A1.%20%0A%0A**Logs/Screenshots:**%0A%0A**Environment:**%0A-%20Docker%20version:%20%0A-%20Docker%20Compose%20version:%20%0A-%20OpenCloud%20version:%20&labels=Type:Bug)
-
----
-
-#### Test 15.2: Rolling vs Production Image Switch
-**Test Steps:**
-1. Deploy with `OC_DOCKER_IMAGE=opencloudeu/opencloud-rolling`
-2. Create test data
-3. Switch to `OC_DOCKER_IMAGE=opencloudeu/opencloud`
-4. Redeploy
-5. Verify compatibility and data access
-
-**Expected Results:**
-- Image switching works correctly
-- Data compatibility is maintained
-- No data loss during transition
-
-- [ ] Check passed or [Create issue](https://github.com/opencloud-eu/opencloud-compose/issues/new?title=Test%2015.2%20Failed:%20Rolling%20vs%20Production%20Image%20Switch&body=**Parent%20Issue:**%20%23%0A%0A**Test%20ID:**%20Test%2015.2%0A**Test%20Name:**%20Rolling%20vs%20Production%20Image%20Switch%0A**Date:**%20%0A**Tester:**%20%0A**Status:**%20FAILED%0A%0A**Issue%20Description:**%0A%0A**Steps%20to%20Reproduce:**%0A1.%20%0A%0A**Logs/Screenshots:**%0A%0A**Environment:**%0A-%20Docker%20version:%20%0A-%20Docker%20Compose%20version:%20%0A-%20OpenCloud%20version:%20&labels=Type:Bug)
-
----
-
-#### Test 16: DNS Resolution Between Services
+#### Test 15: DNS Resolution Between Services
 **Test Steps:**
 1. Deploy full stack
 2. Exec into OpenCloud container
@@ -970,7 +896,7 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
    - Validate service integrations
 
 3. **Complex Scenario Tests** (Priority: Medium)
-   - Tests 11.1, 11.2
+   - Tests 11.1
    - Full stack deployments
 
 4. **Edge Case Tests** (Priority: Low)
@@ -1022,8 +948,7 @@ Test results should be documented with:
 
 1. **Monitoring Tests (6.1)** require manual network creation
 2. **Let's Encrypt Tests (9.1)** require production environment
-3. **Load Balancing Tests (11.2)** may require additional resources
-4. **Demo Users** should never be enabled in production
+3. **Demo Users** should never be enabled in production
 
 ## Automation Recommendations
 
@@ -1031,7 +956,7 @@ Consider automating the following tests:
 - Test 1.1: Basic deployment smoke test
 - Test 1.2: Built-in LDAP validation
 - Test 12.1: Data persistence validation
-- Test 16: DNS resolution checks
+- Test 15: DNS resolution checks
 
 Tools for automation:
 - Docker Compose for orchestration
