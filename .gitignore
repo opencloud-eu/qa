@@ -1,0 +1,13 @@
+# .gitignore file for the opencloud-compose-qa repository
+#
+# ignore custom certs but keep existing ones
+/certs
+!/certs/.gitkeep
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
