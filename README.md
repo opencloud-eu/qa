@@ -43,11 +43,11 @@ Configure the test suite using environment variables:
 ### With Keycloak + Radicale
 
 ```bash
-USE_KEYCLOAK=true KC_BASE_URL=https://keycloak.opencloud.test pnpm exec playwright test tests/caldav.event.crud.spec.ts --project=api
+USE_KEYCLOAK=true KC_BASE_URL=https://keycloak.opencloud.test pnpm exec playwright test tests --project=api
 ```
 
 ### Without Keycloak (OpenCloud + Radicale)
 
 ```bash
-pnpm exec playwright test tests/caldav.event.crud.spec.ts --project=api
+pnpm exec playwright test --project=api
 ```
