@@ -19,7 +19,9 @@ This test suite provides comprehensive integration testing for calendar event CR
 - (Optional) Keycloak and Radicale services
 
 ### Starting OpenCloud
-For detailed setup instructions, visit the [OpenCloud Compose](https://github.com/opencloud-eu/opencloud-compose).
+For detailed setup instructions, visit the [OpenCloud Compose](https://github.com/opencloud-eu/opencloud-compose)
+
+**Note:** Tests use [demo users](https://docs.opencloud.eu/docs/next/admin/resources/demo-user) for authentication. Ensure that demo users are available in your OpenCloud/Keycloak instance
 
 
 ### Installation
