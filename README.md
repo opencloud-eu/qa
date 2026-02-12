@@ -19,7 +19,9 @@ This test suite provides comprehensive integration testing for calendar event CR
 - (Optional) Keycloak and Radicale services
 
 ### Starting OpenCloud
-For detailed setup instructions, visit the [OpenCloud Compose](https://github.com/opencloud-eu/opencloud-compose).
+For detailed setup instructions, visit the [OpenCloud Compose](https://github.com/opencloud-eu/opencloud-compose)
+
+**Note:** Tests use [demo users](https://docs.opencloud.eu/docs/next/admin/resources/demo-user) for authentication. Ensure that demo users are available in your OpenCloud/Keycloak instance
 
 
 ### Installation
@@ -43,11 +45,11 @@ Configure the test suite using environment variables:
 ### With Keycloak + Radicale
 
 ```bash
-USE_KEYCLOAK=true KC_BASE_URL=https://keycloak.opencloud.test pnpm exec playwright test tests/caldav.event.crud.spec.ts --project=api
+USE_KEYCLOAK=true OC_BASE_URL=<your_oc_url> KC_BASE_URL=<your_keycloak_url> pnpm exec playwright test tests --project=api
 ```
 
 ### Without Keycloak (OpenCloud + Radicale)
 
 ```bash
-pnpm exec playwright test tests/caldav.event.crud.spec.ts --project=api
+OC_BASE_URL=<your_oc_url> pnpm exec playwright test --project=api
 ```
