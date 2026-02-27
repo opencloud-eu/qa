@@ -9,6 +9,59 @@ assignees: ''
 
 # OpenCloud Compose Test Plan
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Test Environment Requirements](#test-environment-requirements)
+- [Test Scenarios](#test-scenarios)
+  - [Basic Deployment Tests](#basic-deployment-tests)
+    - [Test 1.1: Minimal OpenCloud with Traefik](#test-11-minimal-opencloud-with-traefik)
+  - [Web Office Integration Tests](#web-office-integration-tests)
+    - [Test 2.1: OpenCloud with Collabora Online](#test-21-opencloud-with-collabora-online)
+  - [Identity Management Tests](#identity-management-tests)
+    - [Test 3.1: OpenCloud with Keycloak and LDAP (Shared User Directory)](#test-31-opencloud-with-keycloak-and-ldap-shared-user-directory)
+    - [Test 3.2: OpenCloud with External IDP (Auto-provisioning)](#test-32-opencloud-with-external-idp-auto-provisioning)
+  - [Storage Backend Tests](#storage-backend-tests)
+    - [Test 4.1: OpenCloud with S3 Storage (MinIO)](#test-41-opencloud-with-s3-storage-minio)
+  - [Search Integration Tests](#search-integration-tests)
+    - [Test 5.1: OpenCloud with Apache Tika Full-Text Search](#test-51-opencloud-with-apache-tika-full-text-search)
+  - [Monitoring Tests](#monitoring-tests)
+    - [Test 6.1: OpenCloud with Monitoring Enabled](#test-61-opencloud-with-monitoring-enabled)
+  - [Calendar/Contacts Integration Tests](#calendarcontacts-integration-tests)
+    - [Test 7.1: OpenCloud with Radicale](#test-71-opencloud-with-radicale)
+  - [External Proxy Tests](#external-proxy-tests)
+    - [Test 8.1: OpenCloud with External Proxy (Port Exposure)](#test-81-opencloud-with-external-proxy-port-exposure)
+    - [Test 8.2: Collabora with External Proxy](#test-82-collabora-with-external-proxy)
+  - [SSL/TLS Configuration Tests](#ssltls-configuration-tests)
+    - [Test 9.1: Let's Encrypt Certificate Configuration](#test-91-lets-encrypt-certificate-configuration)
+    - [Test 9.2: Custom Certificate Configuration (Development)](#test-92-custom-certificate-configuration-development)
+  - [Additional Services Tests](#additional-services-tests)
+    - [Test 10.1: Email Notifications with SMTP](#test-101-email-notifications-with-smtp)
+    - [Test 10.2: Antivirus Scanning with ClamAV](#test-102-antivirus-scanning-with-clamav)
+    - [Test 10.3: Demo Users Creation](#test-103-demo-users-creation)
+  - [Complex Integration Tests](#complex-integration-tests)
+    - [Test 11.1: Full Production Stack](#test-111-full-production-stack)
+  - [Persistence and Data Integrity Tests](#persistence-and-data-integrity-tests)
+    - [Test 12.1: Data Persistence with Docker Volumes](#test-121-data-persistence-with-docker-volumes)
+    - [Test 12.2: Data Persistence with Host Paths](#test-122-data-persistence-with-host-paths)
+  - [Logging and Debugging Tests](#logging-and-debugging-tests)
+    - [Test 13.1: Log Driver Configuration](#test-131-log-driver-configuration)
+    - [Test 13.2: Traefik Dashboard and Access Logs](#test-132-traefik-dashboard-and-access-logs)
+  - [Security Tests](#security-tests)
+    - [Test 14.1: INSECURE Flag Impact](#test-141-insecure-flag-impact)
+  - [DNS Resolution Between Services](#dns-resolution-between-services)
+- [Test Execution Guidelines](#test-execution-guidelines)
+  - [Test Phases](#test-phases)
+  - [Test Environment Matrix](#test-environment-matrix)
+  - [Success Criteria](#success-criteria)
+  - [Reporting](#reporting)
+  - [Known Issues and Limitations](#known-issues-and-limitations)
+  - [Automation Recommendations](#automation-recommendations)
+  - [Appendix: Test Data](#appendix-test-data)
+    - [Sample Users](#sample-users)
+    - [Sample Test Queries for Search](#sample-test-queries-for-search)
+
+
 ## Overview
 
 This document outlines a comprehensive test plan for the OpenCloud Compose project. The plan covers different service combinations, configurations, and deployment scenarios based on the modular architecture of the repository.
@@ -888,7 +941,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:tr
 ### Test Phases
 
 1. **Smoke Tests** (Priority: Critical)
-   - Tests 1.1, 1.2
+   - Tests 1.1
    - Quick validation that basic deployment works
 
 2. **Integration Tests** (Priority: High)
@@ -908,7 +961,6 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:tr
 | Test ID | Dev | Staging | Production |
 |---------|-----|---------|------------|
 | 1.1     | ✓   | ✓       | ✓          |
-| 1.2     | ✓   | ✓       | -          |
 | 2.1     | ✓   | ✓       | ✓          |
 | 3.1     | ✓   | ✓       | ✓          |
 | 3.2     | ✓   | ✓       | ✓          |
@@ -954,7 +1006,6 @@ Test results should be documented with:
 
 Consider automating the following tests:
 - Test 1.1: Basic deployment smoke test
-- Test 1.2: Built-in LDAP validation
 - Test 12.1: Data persistence validation
 - Test 15: DNS resolution checks
 
