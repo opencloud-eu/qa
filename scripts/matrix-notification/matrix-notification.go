@@ -123,6 +123,11 @@ func main() {
 		fmt.Fprintf(os.Stderr, err.Error()+"\n")
 		os.Exit(1)
 	}
+
+	if !allSuccess {
+		fmt.Fprintln(os.Stderr, "pipeline failed — exiting with code 1")
+		os.Exit(1)
+	}
 }
 
 func getPipeline(cfg Config) (*PipelineResponse, error) {
