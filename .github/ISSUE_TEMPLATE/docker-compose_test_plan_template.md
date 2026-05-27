@@ -441,7 +441,7 @@ COMPOSE_FILE=docker-compose.yml:external-proxy/opencloud.yml
 
 **Test Steps:**
 1. Deploy OpenCloud with external proxy configuration
-2. Verify port 9200 is exposed
+2. Verify port 9200 is exposed `curl -I http://localhost:9200`
 3. Access OpenCloud via http://localhost:9200
 4. Configure external reverse proxy (Nginx/Caddy) to forward to port 9200
 5. Access OpenCloud through external proxy
@@ -470,7 +470,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:external-proxy/opencloud
 
 **Test Steps:**
 1. Deploy with external proxy configuration
-2. Verify ports are exposed: 9200 (OpenCloud), 9980 (Collabora), 9300 (WOPI)
+2. Verify ports are exposed: `curl -I http://localhost:9200`, `curl -I http://localhost:9980`
 3. Configure external reverse proxy for all services
 4. Access OpenCloud through external proxy
 5. Create and edit documents with Collabora through proxy
@@ -480,7 +480,6 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:external-proxy/opencloud
 - All required ports are exposed
 - Services work correctly behind external proxy
 - Collabora editor functions through proxy
-- WOPI server communication is successful
 
 - [ ] Check passed or [Create issue](https://github.com/opencloud-eu/opencloud-compose/issues/new?title=Test%208.2%20Failed:%20Collabora%20with%20External%20Proxy&body=**Parent%20Issue:**%20%23%0A%0A**Test%20ID:**%20Test%208.2%0A**Test%20Name:**%20Collabora%20with%20External%20Proxy%0A**Date:**%20%0A**Tester:**%20%0A**Status:**%20FAILED%0A%0A**Issue%20Description:**%0A%0A**Steps%20to%20Reproduce:**%0A1.%20%0A%0A**Logs/Screenshots:**%0A%0A**Environment:**%0A-%20Docker%20version:%20%0A-%20Docker%20Compose%20version:%20%0A-%20OpenCloud%20version:%20&labels=Type:Bug)
 
