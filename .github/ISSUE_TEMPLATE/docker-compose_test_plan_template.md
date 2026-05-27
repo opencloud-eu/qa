@@ -215,7 +215,7 @@ COMPOSE_FILE=docker-compose.yml:idm/ldap-keycloak.yml:traefik/opencloud.yml:trae
 #### Test 3.2: OpenCloud with External IDP (Auto-provisioning)
 **Configuration:**
 ```bash
-COMPOSE_FILE=docker-compose.yml:idm/external-idp.yml:traefik/opencloud.yml
+COMPOSE_FILE=docker-compose.yml:idm/external-idp.yml:traefik/opencloud.yml:testing/external-keycloak.yml:traefik/ldap-keycloak.yml
 ```
 
 **Environment Variables:**
@@ -225,17 +225,18 @@ COMPOSE_FILE=docker-compose.yml:idm/external-idp.yml:traefik/opencloud.yml
 - `IDP_ACCOUNT_URL=https://keycloak.opencloud.test/realms/openCloud/account`
 - `LDAP_BIND_PASSWORD=ldapAdmin123`
 - `INSECURE=true`
+- `WEBFINGER_WEB_OIDC_CLIENT_ID=web`
+- `WEBFINGER_WEB_OIDC_CLIENT_SCOPES=openid profile email roles`
 
 **Test Steps:**
-1. Setup external Keycloak (using testing/external-keycloak.yml)
-2. Deploy OpenCloud with external IDP configuration
-3. Verify LDAP server starts with write enabled
-4. Access OpenCloud login page
-5. Redirect to external IDP for authentication
-6. Login with external IDP user (e.g. **dennis** - **demo**)
-7. Verify user is auto-provisioned in OpenCloud LDAP
-8. Check user can access OpenCloud dashboard
-9. Verify account edit link redirects to external IDP
+1. Deploy OpenCloud with external IDP configuration
+2. Verify LDAP server starts with write enabled
+3. Access OpenCloud login page
+4. Redirect to external IDP for authentication
+5. Login with external IDP user (e.g. **dennis** - **demo**)
+6. Verify user is auto-provisioned in OpenCloud LDAP
+7. Check user can access OpenCloud dashboard
+8. Verify account edit link redirects to external IDP
 
 **Expected Results:**
 - OpenCloud redirects to external IDP for authentication
