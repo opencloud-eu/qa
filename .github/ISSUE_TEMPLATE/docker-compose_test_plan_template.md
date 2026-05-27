@@ -290,7 +290,7 @@ COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml
     --user "root" \
     --entrypoint="" \
     alpine/minio:latest-release \
-    sh -c "mkdir -p /data/opencloud-bucket && minio server --console-address ':9001' /data"
+    sh -c "mkdir -p /data/opencloud && minio server --console-address ':9001' /data"
 ```
 4. Verify that the MinIO container is running.
 5. Verify that OpenCloud connects to MinIO.
@@ -298,11 +298,11 @@ COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml
 7. Upload a test file.
 8. Verify that the file is stored in the S3 bucket.
 9. Download the file.
-10. Delete the file.
+10. Delete the file and empty the trashbin.
 11. Verify that the file is deleted from S3.
 12. Create a project space with the file.
 13. Verify that the space is stored in the S3 bucket.
-14. Disconnect and delete the space.
+14. Disable and delete the space.
 15. Verify that the space is deleted from S3.
 
 **Expected Results:**
