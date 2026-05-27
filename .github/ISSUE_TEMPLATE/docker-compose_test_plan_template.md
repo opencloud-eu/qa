@@ -176,7 +176,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:tr
 #### Test 3.1: OpenCloud with Keycloak and LDAP (Shared User Directory)
 **Configuration:**
 ```bash
-COMPOSE_FILE=docker-compose.yml:idm/ldap-keycloak.yml:traefik/opencloud.yml:traefik/ldap-keycloak.yml:testing/external-keycloak.yml
+COMPOSE_FILE=docker-compose.yml:idm/ldap-keycloak.yml:traefik/opencloud.yml:traefik/ldap-keycloak.yml
 ```
 
 **Environment Variables:**
