@@ -546,6 +546,8 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
      certificates:
        - certFile: /certs/opencloud.test.crt
          keyFile: /certs/opencloud.test.key
+         stores:
+           - default
    ```
 3. Deploy OpenCloud stack
 4. Access OpenCloud via HTTPS
@@ -828,15 +830,15 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `LOG_DRIVER=json-file`
 - `LOG_LEVEL=debug`
 - `LOG_PRETTY=true`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 
 **Test Steps:**
-1. Configure logging settings
-2. Deploy OpenCloud
-3. Generate various log events (login, file operations, errors)
-4. View logs: `docker compose logs -f opencloud`
-5. Verify log format matches configuration
-6. Test different log levels (info, debug, error)
-7. Check Traefik access logs if enabled
+1. Deploy OpenCloud
+2. Generate various log events (login, file operations, errors)
+3. View logs: `docker compose logs -f opencloud`
+4. Verify log format matches configuration
+5. Test different log levels (info, debug, error)
+6. Check Traefik access logs if enabled
 
 **Expected Results:**
 - Logs are formatted according to configuration
@@ -860,16 +862,15 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `TRAEFIK_BASIC_AUTH_USERS=admin:$$2y$$05$$KDHu3xq92SPaO3G8Ybkc7edd51pPLJcG1nWk3lmlrIdANQ/B6r5pq`
 - `TRAEFIK_ACCESS_LOG=true`
 - `TRAEFIK_LOG_LEVEL=DEBUG`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 
 **Test Steps:**
-1. Enable Traefik dashboard and access logs
-2. Deploy stack
-3. Access Traefik dashboard at https://traefik.opencloud.test
-4. Login with configured credentials
-5. Verify dashboard displays services and routers
-6. Generate traffic to OpenCloud
-7. Monitor access logs in Traefik dashboard
-8. Check container logs for Traefik access entries
+1. Deploy stack
+2. Access Traefik dashboard at https://traefik.opencloud.test
+3. Login with configured credentials (`admin:admin`)
+4. Verify dashboard displays services and routers
+5. Generate traffic to OpenCloud
+6. Check container logs for Traefik access entries
 
 **Expected Results:**
 - Traefik dashboard is accessible
@@ -889,6 +890,9 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```bash
 COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:traefik/collabora.yml
 ```
+
+**Environment Variables:**
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 
 **Test Cases:**
 - **Case A**: `INSECURE=true`
