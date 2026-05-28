@@ -411,10 +411,8 @@ COMPOSE_FILE=docker-compose.yml:radicale/radicale.yml:traefik/opencloud.yml
 7. Create App Token
 8. Access calendar interface via https://cloud.opencloud.test/caldav/.web
 9. Login via test user and their App Token
-10. Test CalDAV endpoint with calendar client
-11. Test CardDAV endpoint with contacts client
-12. Create a calendar event
-13. Access contacts interface
+10. Test CalDAV/CardDAV endpoint using automated tests from https://github.com/opencloud-eu/qa:
+`OC_BASE_URL=https://cloud.opencloud.test pnpm exec playwright test --project=api`
 
 **Expected Results:**
 - Radicale container starts successfully
