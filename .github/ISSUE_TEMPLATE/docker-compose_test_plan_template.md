@@ -176,7 +176,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:tr
 #### Test 3.1: OpenCloud with Keycloak and LDAP (Shared User Directory)
 **Configuration:**
 ```bash
-COMPOSE_FILE=docker-compose.yml:idm/ldap-keycloak.yml:traefik/opencloud.yml:traefik/ldap-keycloak.yml:testing/external-keycloak.yml
+COMPOSE_FILE=docker-compose.yml:idm/ldap-keycloak.yml:traefik/opencloud.yml:traefik/ldap-keycloak.yml
 ```
 
 **Environment Variables:**
@@ -215,7 +215,7 @@ COMPOSE_FILE=docker-compose.yml:idm/ldap-keycloak.yml:traefik/opencloud.yml:trae
 #### Test 3.2: OpenCloud with External IDP (Auto-provisioning)
 **Configuration:**
 ```bash
-COMPOSE_FILE=docker-compose.yml:idm/external-idp.yml:traefik/opencloud.yml
+COMPOSE_FILE=docker-compose.yml:idm/external-idp.yml:traefik/opencloud.yml:testing/external-keycloak.yml:traefik/ldap-keycloak.yml
 ```
 
 **Environment Variables:**
@@ -225,17 +225,18 @@ COMPOSE_FILE=docker-compose.yml:idm/external-idp.yml:traefik/opencloud.yml
 - `IDP_ACCOUNT_URL=https://keycloak.opencloud.test/realms/openCloud/account`
 - `LDAP_BIND_PASSWORD=ldapAdmin123`
 - `INSECURE=true`
+- `WEBFINGER_WEB_OIDC_CLIENT_ID=web`
+- `WEBFINGER_WEB_OIDC_CLIENT_SCOPES=openid profile email roles`
 
 **Test Steps:**
-1. Setup external Keycloak (using testing/external-keycloak.yml)
-2. Deploy OpenCloud with external IDP configuration
-3. Verify LDAP server starts with write enabled
-4. Access OpenCloud login page
-5. Redirect to external IDP for authentication
-6. Login with external IDP user (e.g. **dennis** - **demo**)
-7. Verify user is auto-provisioned in OpenCloud LDAP
-8. Check user can access OpenCloud dashboard
-9. Verify account edit link redirects to external IDP
+1. Deploy OpenCloud with external IDP configuration
+2. Verify LDAP server starts with write enabled
+3. Access OpenCloud login page
+4. Redirect to external IDP for authentication
+5. Login with external IDP user (e.g. **dennis** - **demo**)
+6. Verify user is auto-provisioned in OpenCloud LDAP
+7. Check user can access OpenCloud dashboard
+8. Verify account edit link redirects to external IDP
 
 **Expected Results:**
 - OpenCloud redirects to external IDP for authentication
@@ -289,7 +290,7 @@ COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml
     --user "root" \
     --entrypoint="" \
     alpine/minio:latest-release \
-    sh -c "mkdir -p /data/opencloud-bucket && minio server --console-address ':9001' /data"
+    sh -c "mkdir -p /data/opencloud && minio server --console-address ':9001' /data"
 ```
 4. Verify that the MinIO container is running.
 5. Verify that OpenCloud connects to MinIO.
@@ -297,11 +298,11 @@ COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml
 7. Upload a test file.
 8. Verify that the file is stored in the S3 bucket.
 9. Download the file.
-10. Delete the file.
+10. Delete the file and empty the trashbin.
 11. Verify that the file is deleted from S3.
 12. Create a project space with the file.
 13. Verify that the space is stored in the S3 bucket.
-14. Disconnect and delete the space.
+14. Disable and delete the space.
 15. Verify that the space is deleted from S3.
 
 **Expected Results:**
@@ -410,10 +411,8 @@ COMPOSE_FILE=docker-compose.yml:radicale/radicale.yml:traefik/opencloud.yml
 7. Create App Token
 8. Access calendar interface via https://cloud.opencloud.test/caldav/.web
 9. Login via test user and their App Token
-10. Test CalDAV endpoint with calendar client
-11. Test CardDAV endpoint with contacts client
-12. Create a calendar event
-13. Access contacts interface
+10. Test CalDAV/CardDAV endpoint using automated tests from https://github.com/opencloud-eu/qa:
+`OC_BASE_URL=https://cloud.opencloud.test pnpm exec playwright test --project=api`
 
 **Expected Results:**
 - Radicale container starts successfully
@@ -440,9 +439,9 @@ COMPOSE_FILE=docker-compose.yml:external-proxy/opencloud.yml
 
 **Test Steps:**
 1. Deploy OpenCloud with external proxy configuration
-2. Verify port 9200 is exposed
+2. Verify port 9200 is exposed `curl -I http://localhost:9200`
 3. Access OpenCloud via http://localhost:9200
-4. Configure external reverse proxy (Nginx/Caddy) to forward to port 9200
+4. Configure external reverse proxy ([Nginx](https://docs.opencloud.eu/docs/next/admin/getting-started/container/docker-compose/external-proxy)/Caddy) to forward to port 9200
 5. Access OpenCloud through external proxy
 6. Test all basic functionality through proxy
 
@@ -469,7 +468,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:external-proxy/opencloud
 
 **Test Steps:**
 1. Deploy with external proxy configuration
-2. Verify ports are exposed: 9200 (OpenCloud), 9980 (Collabora), 9300 (WOPI)
+2. Verify ports are exposed: `curl -I http://localhost:9200`, `curl -I http://localhost:9980`
 3. Configure external reverse proxy for all services
 4. Access OpenCloud through external proxy
 5. Create and edit documents with Collabora through proxy
@@ -479,7 +478,6 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:external-proxy/opencloud
 - All required ports are exposed
 - Services work correctly behind external proxy
 - Collabora editor functions through proxy
-- WOPI server communication is successful
 
 - [ ] Check passed or [Create issue](https://github.com/opencloud-eu/opencloud-compose/issues/new?title=Test%208.2%20Failed:%20Collabora%20with%20External%20Proxy&body=**Parent%20Issue:**%20%23%0A%0A**Test%20ID:**%20Test%208.2%0A**Test%20Name:**%20Collabora%20with%20External%20Proxy%0A**Date:**%20%0A**Tester:**%20%0A**Status:**%20FAILED%0A%0A**Issue%20Description:**%0A%0A**Steps%20to%20Reproduce:**%0A1.%20%0A%0A**Logs/Screenshots:**%0A%0A**Environment:**%0A-%20Docker%20version:%20%0A-%20Docker%20Compose%20version:%20%0A-%20OpenCloud%20version:%20&labels=Type:Bug)
 
@@ -542,7 +540,15 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
    mkcert -install
    mkcert -cert-file certs/opencloud.test.crt -key-file certs/opencloud.test.key "*.opencloud.test" opencloud.test
    ```
-2. Create Traefik dynamic config in `config/traefik/dynamic/certs.yml`
+2. Create Traefik dynamic config in `config/traefik/dynamic/certs.yml` with the following content:
+   ```yaml
+   tls:
+     certificates:
+       - certFile: /certs/opencloud.test.crt
+         keyFile: /certs/opencloud.test.key
+         stores:
+           - default
+   ```
 3. Deploy OpenCloud stack
 4. Access OpenCloud via HTTPS
 5. Verify custom certificate is used
@@ -597,15 +603,8 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `INSECURE=true`
 
 **Test Steps:**
-1. Start OpenCloud
-```bash
-   docker-compose up -d
-```
-2. Identify Docker network
-```bash
-   docker network ls
-```
-3. Start inbucket in the same network
+1. Deploy OpenCloud
+2. Start inbucket in the same network
 ```bash
    docker run -d \
    -p9000:9000 \
@@ -614,10 +613,10 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
    --network opencloud-compose_opencloud-net \
    inbucket/inbucket
 ```
-4. Login and enable email notifications in settings
-5. Trigger a notification event (share file)
-6. Verify email is sent
-7. Check email content and formatting
+3. Login and enable email notifications in settings
+4. Trigger a notification event (share file)
+5. Verify email is sent: http://localhost:9000
+6. Check email content and formatting
 
 **Expected Results:**
 - Notifications service starts successfully
@@ -645,14 +644,13 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml:antivirus/clamav.yml
 - `INSECURE=true`
 
 **Test Steps:**
-1. Enable antivirus service
-2. Deploy OpenCloud
-3. Wait for ClamAV to initialize and update definitions
-4. Upload a clean test file
-5. Verify file upload succeeds
-6. Upload EICAR test file (safe virus test file)
-7. Verify file is detected and blocked
-8. Check logs for virus detection
+1. Deploy OpenCloud
+2. Wait for ClamAV to initialize and update definitions
+3. Upload a clean test file
+4. Verify file upload succeeds
+5. Upload EICAR test file (safe virus test file)
+6. Verify file is detected and blocked
+7. Check logs for virus detection
 
 **Expected Results:**
 - ClamAV container starts and updates
@@ -675,18 +673,18 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `OC_DOMAIN=cloud.opencloud.test`
 - `DEMO_USERS=true`
 - `INSECURE=true`
+- `LOG_LEVEL=debug`
 
 **Test Steps:**
-1. Enable demo users
-2. Deploy OpenCloud
-3. Check logs for demo user creation
-4. Login with each demo user:
+1. Deploy OpenCloud
+2. Check logs for demo user creation. Search for `Adding entry` log entries.
+3. Login with each demo user:
    - Username: `alan`, Password: `demo`
    - Username: `mary`, Password: `demo`
    - Username: `margaret`, Password: `demo`
    - Username: `dennis`, Password: `demo`
    - Username: `lynn`, Password: `demo`
-5. Verify each user has access to dashboard
+4. Verify each user has access to dashboard
 
 **Expected Results:**
 - All demo users are created successfully
@@ -728,7 +726,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:idm/ldap-keycloak.yml:se
 2. Deploy full production stack
 3. Verify all containers start (9 containers)
 4. Login to Keycloak admin console
-5. Create test users in Keycloak
+5. Create test users in Keycloak and assign them `opencloudUser` realm role
 6. Login to OpenCloud with Keycloak user
 7. Upload and edit documents with Collabora
 8. Perform full-text search
@@ -832,15 +830,15 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `LOG_DRIVER=json-file`
 - `LOG_LEVEL=debug`
 - `LOG_PRETTY=true`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 
 **Test Steps:**
-1. Configure logging settings
-2. Deploy OpenCloud
-3. Generate various log events (login, file operations, errors)
-4. View logs: `docker compose logs -f opencloud`
-5. Verify log format matches configuration
-6. Test different log levels (info, debug, error)
-7. Check Traefik access logs if enabled
+1. Deploy OpenCloud
+2. Generate various log events (login, file operations, errors)
+3. View logs: `docker compose logs -f opencloud`
+4. Verify log format matches configuration
+5. Test different log levels (info, debug, error)
+6. Check Traefik access logs if enabled
 
 **Expected Results:**
 - Logs are formatted according to configuration
@@ -864,16 +862,15 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `TRAEFIK_BASIC_AUTH_USERS=admin:$$2y$$05$$KDHu3xq92SPaO3G8Ybkc7edd51pPLJcG1nWk3lmlrIdANQ/B6r5pq`
 - `TRAEFIK_ACCESS_LOG=true`
 - `TRAEFIK_LOG_LEVEL=DEBUG`
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 
 **Test Steps:**
-1. Enable Traefik dashboard and access logs
-2. Deploy stack
-3. Access Traefik dashboard at https://traefik.opencloud.test
-4. Login with configured credentials
-5. Verify dashboard displays services and routers
-6. Generate traffic to OpenCloud
-7. Monitor access logs in Traefik dashboard
-8. Check container logs for Traefik access entries
+1. Deploy stack
+2. Access Traefik dashboard at https://traefik.opencloud.test
+3. Login with configured credentials (`admin:admin`)
+4. Verify dashboard displays services and routers
+5. Generate traffic to OpenCloud
+6. Check container logs for Traefik access entries
 
 **Expected Results:**
 - Traefik dashboard is accessible
@@ -893,6 +890,9 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 ```bash
 COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:traefik/opencloud.yml:traefik/collabora.yml
 ```
+
+**Environment Variables:**
+- `INITIAL_ADMIN_PASSWORD=adminsecret`
 
 **Test Cases:**
 - **Case A**: `INSECURE=true`
