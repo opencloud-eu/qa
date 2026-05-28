@@ -443,7 +443,7 @@ COMPOSE_FILE=docker-compose.yml:external-proxy/opencloud.yml
 1. Deploy OpenCloud with external proxy configuration
 2. Verify port 9200 is exposed `curl -I http://localhost:9200`
 3. Access OpenCloud via http://localhost:9200
-4. Configure external reverse proxy (Nginx/Caddy) to forward to port 9200
+4. Configure external reverse proxy ([Nginx](https://docs.opencloud.eu/docs/next/admin/getting-started/container/docker-compose/external-proxy)/Caddy) to forward to port 9200
 5. Access OpenCloud through external proxy
 6. Test all basic functionality through proxy
 
@@ -542,7 +542,13 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
    mkcert -install
    mkcert -cert-file certs/opencloud.test.crt -key-file certs/opencloud.test.key "*.opencloud.test" opencloud.test
    ```
-2. Create Traefik dynamic config in `config/traefik/dynamic/certs.yml`
+2. Create Traefik dynamic config in `config/traefik/dynamic/certs.yml` with the following content:
+   ```yaml
+   tls:
+     certificates:
+       - certFile: /certs/opencloud.test.crt
+         keyFile: /certs/opencloud.test.key
+   ```
 3. Deploy OpenCloud stack
 4. Access OpenCloud via HTTPS
 5. Verify custom certificate is used
