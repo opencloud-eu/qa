@@ -603,15 +603,8 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `INSECURE=true`
 
 **Test Steps:**
-1. Start OpenCloud
-```bash
-   docker-compose up -d
-```
-2. Identify Docker network
-```bash
-   docker network ls
-```
-3. Start inbucket in the same network
+1. Deploy OpenCloud
+2. Start inbucket in the same network
 ```bash
    docker run -d \
    -p9000:9000 \
@@ -620,10 +613,10 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
    --network opencloud-compose_opencloud-net \
    inbucket/inbucket
 ```
-4. Login and enable email notifications in settings
-5. Trigger a notification event (share file)
-6. Verify email is sent
-7. Check email content and formatting
+3. Login and enable email notifications in settings
+4. Trigger a notification event (share file)
+5. Verify email is sent: http://localhost:9000
+6. Check email content and formatting
 
 **Expected Results:**
 - Notifications service starts successfully
@@ -651,14 +644,13 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml:antivirus/clamav.yml
 - `INSECURE=true`
 
 **Test Steps:**
-1. Enable antivirus service
-2. Deploy OpenCloud
-3. Wait for ClamAV to initialize and update definitions
-4. Upload a clean test file
-5. Verify file upload succeeds
-6. Upload EICAR test file (safe virus test file)
-7. Verify file is detected and blocked
-8. Check logs for virus detection
+1. Deploy OpenCloud
+2. Wait for ClamAV to initialize and update definitions
+3. Upload a clean test file
+4. Verify file upload succeeds
+5. Upload EICAR test file (safe virus test file)
+6. Verify file is detected and blocked
+7. Check logs for virus detection
 
 **Expected Results:**
 - ClamAV container starts and updates
@@ -681,18 +673,18 @@ COMPOSE_FILE=docker-compose.yml:traefik/opencloud.yml
 - `OC_DOMAIN=cloud.opencloud.test`
 - `DEMO_USERS=true`
 - `INSECURE=true`
+- `LOG_LEVEL=debug`
 
 **Test Steps:**
-1. Enable demo users
-2. Deploy OpenCloud
-3. Check logs for demo user creation
-4. Login with each demo user:
+1. Deploy OpenCloud
+2. Check logs for demo user creation. Search for `Adding entry` log entries.
+3. Login with each demo user:
    - Username: `alan`, Password: `demo`
    - Username: `mary`, Password: `demo`
    - Username: `margaret`, Password: `demo`
    - Username: `dennis`, Password: `demo`
    - Username: `lynn`, Password: `demo`
-5. Verify each user has access to dashboard
+4. Verify each user has access to dashboard
 
 **Expected Results:**
 - All demo users are created successfully
@@ -734,7 +726,7 @@ COMPOSE_FILE=docker-compose.yml:weboffice/collabora.yml:idm/ldap-keycloak.yml:se
 2. Deploy full production stack
 3. Verify all containers start (9 containers)
 4. Login to Keycloak admin console
-5. Create test users in Keycloak
+5. Create test users in Keycloak and assign them `opencloudUser` realm role
 6. Login to OpenCloud with Keycloak user
 7. Upload and edit documents with Collabora
 8. Perform full-text search
