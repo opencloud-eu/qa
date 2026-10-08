@@ -53,3 +53,8 @@ USE_KEYCLOAK=true OC_BASE_URL=<your_oc_url> KC_BASE_URL=<your_keycloak_url> pnpm
 ```bash
 OC_BASE_URL=<your_oc_url> pnpm exec playwright test --project=api
 ```
+
+## Exploratory release testing
+
+Agent-driven exploratory tests of release candidates (Claude Code + Playwright), one report per release:
+see [exploratory/README.md](exploratory/README.md).

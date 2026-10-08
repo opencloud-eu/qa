@@ -11,3 +11,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Claude Code personal settings
+.claude/settings.local.json
+**/.claude/settings.local.json

@@ -1,0 +1,8 @@
+.env
+.auth/
+# raw screenshots not referenced in the report, scratch scripts and security drafts stay local
+releases/*/screens-raw/
+releases/*/scripts/
+releases/*/security/
+releases/.current
+releases/_scratch/
