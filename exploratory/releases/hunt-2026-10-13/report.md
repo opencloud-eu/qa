@@ -18,6 +18,8 @@
 
 Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · not reproducible: – · duplicates / known (not listed below): 13 · out of scope: –
 
+**Overlap with bug sweep 2** ([artifact](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4), 2026-10-12): 9 of the findings below were already reported there (H1-C2, H2-4, H4-C2, H4-C4, H6-C2, H7-C1, H7-C3, H9-3, H9-4); 5 are related to a sweep 2 finding (H2-3, H3-C2, H4-C1, H6-C3, H7-C4). New: 23.
+
 **Top findings**
 - **H2-3** Upload "Keep both" silently loses a file of the same batch while reporting success (data loss).
 - **H2-2** Restoring a folder together with a file deleted from it splits the data between a new folder and the trash (HTTP 500).
@@ -48,7 +50,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** The server answers `MOVE` with 423 (or any 5xx); the UI shows nothing, the file just stays. Cut + paste of the same file shows "Failed to move …".
 - **Expected:** An error message as for cut/paste, or dragging locked files is not allowed (Move-to is hidden for locked files).
 - **Evidence:** ![](screens/H1-C2-h1-08-locked-after-drag.png) · ![](screens/H1-C2-h1-07-status-paste.png) · draft: [issues/H1-C2.md](issues/H1-C2.md) · console: `Ui: move: error: locked by urn:uuid:…`
-- **Reproduced:** 2/2 (423 real, 500 mocked) (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 2/2 (423 real, 500 mocked) (explorer only, no independent verification) · **Known issue:** bug sweep 2 (2026-10-12): [dragdrop-permissions](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-dragdrop-permissions)
 - **Cause:** `packages/web-app-files/src/views/spaces/GenericSpace.vue:502-505` — the `startWorker` callback of `fileDropped` ignores `failed` and never calls `resourceTransfer.showResultMessage`; no `locked` guard like `useFileActionsMove.ts:227`.
 - **Fix idea:** Call `showResultMessage(failed, successful, …)` in the drop callback and skip locked resources.
 
@@ -130,7 +132,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** Both uploads target `c (1).txt`; one TUS POST gets 409 and is retried; the result is `c (1).txt` = content of the new `c.txt`. The user's own `c (1).txt` is gone, while the panel says "2 files uploaded".
 - **Expected:** `c.txt` (old), `c (1).txt` (uploaded) and `c (2).txt` (renamed upload).
 - **Evidence:** ![](screens/H2-3-H2-kb2-after.png) · draft: [issues/H2-3.md](issues/H2-3.md) · console: `Failed to load resource: 409` (TUS POST)
-- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no (#3661 is the same pattern for copy/paste)
+- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no (#3661 is the same pattern for copy/paste); related to bug sweep 2 [paste-keepboth-collision](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-paste-keepboth-collision) (same pattern for paste)
 - **Cause:** `packages/web-app-files/src/helpers/resource/actions/upload.ts:171-175` — `resolveFileNameDuplicate` checks only the files already in the folder, not the other files of the same batch (same for folders, line 188).
 - **Fix idea:** Pass the names of the batch (and names already assigned in the loop) to `resolveFileNameDuplicate`.
 
@@ -143,7 +145,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** The panel shows "Preparing upload…" forever, no request is sent, the close button is gone. After the next upload the panel hangs on "Finalizing upload…".
 - **Expected:** The folder and its files are uploaded on retry, or retry is not offered for folder errors.
 - **Evidence:** ![](screens/H2-4-H2-fold2-mkcol-after-retry-10s.png) · draft: [issues/H2-4.md](issues/H2-4.md) · console: `Ts: Unknown error at Object.createFolder`
-- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** bug sweep 2 (2026-10-12): [upload-retry-folder](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-upload-retry-folder)
 - **Cause:** `packages/web-app-files/src/HandleUpload.ts:409-421` removes the folder's files from Uppy and only reports the folder; `packages/web-runtime/src/components/UploadInfo.vue:522-536` raises the counters and calls `uppy.retryAll()`, which has nothing to retry.
 - **Fix idea:** Re-run the folder upload on retry, or don't offer retry for folder errors / reset counters when nothing is retried.
 
@@ -169,7 +171,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** URL is back without the param, but "Hidden Shares" stays selected and hidden shares are listed. Reload fixes it.
 - **Expected:** "Shares" selected and visible shares listed.
 - **Evidence:** ![](screens/H3-C2-H3-c2-hidden-filter-after-back.png) · draft: [issues/H3-C2.md](issues/H3-C2.md) · console: none
-- **Reproduced:** 1/1+ (explorer) (explorer only, no independent verification) · **Known issue:** probably an extension of #3740 (which covers `ItemFilter`, not `ItemFilterInline`)
+- **Reproduced:** 1/1+ (explorer) (explorer only, no independent verification) · **Known issue:** probably an extension of #3740 (which covers `ItemFilter`, not `ItemFilterInline`); related to bug sweep 2 [itemfilter-back-stale](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-itemfilter-back-stale) (same pattern for the filter chips)
 - **Cause:** `packages/web-pkg/src/components/Filters/ItemFilterInline.vue:62-71` reads the query only in `onMounted`; `SharedWithMe.vue:146,169-172` keeps the state in a local ref.
 - **Fix idea:** Watch the route query in `ItemFilterInline` (same fix family as #3740).
 
@@ -209,7 +211,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** Toast "Failed to update link", but the row shows "Can view"; the server still has `edit`. The owner believes the link is read-only while anonymous users can still edit.
 - **Expected:** The row keeps the real role.
 - **Evidence:** ![](screens/H4-C1-H4-repro-role-failed.png) · draft: [issues/H4-C1.md](issues/H4-C1.md) · console: `AxiosError: Network Error` / `status code 500`
-- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no; related to bug sweep 2 [link-type-cancel](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-link-type-cancel) (same symptom when the password dialog is cancelled)
 - **Cause:** `packages/web-app-files/src/components/SideBar/Shares/Links/ListItem.vue:105,111-121` — local `currentLinkType` is set before the request and never reset.
 - **Fix idea:** Derive the value from `linkShare.type` (computed) or revert on failure.
 
@@ -222,7 +224,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** "Link was updated successfully"; the server stores `"   "`; the row shows no name.
 - **Expected:** Validation error as for an empty name, or trimming.
 - **Evidence:** ![](screens/H4-C2-H4-repro-ws-name.png) · draft: [issues/H4-C2.md](issues/H4-C2.md) · console: none
-- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** bug sweep 2 (2026-10-12): [link-name-blank](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-link-name-blank)
 - **Cause:** `packages/web-app-files/src/components/SideBar/Shares/Links/EditDropdown.vue:177-185` checks `name.length` without trim.
 - **Fix idea:** Validate `name.trim()` and send the trimmed value.
 
@@ -248,7 +250,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** alan lands on `/files/upload/<token>?fileId=<token>` (anonymous upload page); `getPathForFileId` fails (401 PROPFIND `/dav/meta/<token>`). A folder link instead redirects to the internal folder.
 - **Expected:** Redirect to the internal folder as `FilesDrop.vue` intends.
 - **Evidence:** ![](screens/H4-C4-H4-loggedin-alan-BHxo.png) · draft: [issues/H4-C4.md](issues/H4-C4.md) · console: `401 PROPFIND /dav/meta/<token>` (swallowed)
-- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** bug sweep 2 (2026-10-12): [filedrop-owner](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-filedrop-owner)
 - **Cause:** `packages/web-runtime/src/pages/resolvePublicLink.vue:196-200` pushes `fileId: publicLinkSpace.fileId`, which falls back to the token; consumer `packages/web-app-files/src/views/FilesDrop.vue:208-217`.
 - **Fix idea:** Use `loadedSpace.fileId`.
 
@@ -313,7 +315,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** The file is already in the trash when the dialog appears; Save → 412 → "This file was updated outside this window…"; the editor stays open on a deleted, dirty file.
 - **Expected:** Warn before deleting a dirty file, or close without offering an impossible save; the error should say the file was deleted.
 - **Evidence:** ![](screens/H6-C2-H6-edel-modal.png) · ![](screens/H6-C2-H6-edel-after-save.png) · draft: [issues/H6-C2.md](issues/H6-C2.md) · console: `Failed to load resource: 412`
-- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** bug sweep 2 (2026-10-12): [editor-delete-dirty](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-editor-delete-dirty)
 - **Cause:** `AppWrapper.vue:765-767,893-895` delete without checking `isDirty`; `737-751` then closes the app and `819-843` offers Save; `573-578` treats every 409/412 as an external update.
 - **Fix idea:** Check `isDirty` before deleting (confirm), and skip the save prompt after a delete.
 
@@ -325,7 +327,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** Folder → blank editor with Save; PNG → binary shown as editable text (saving would overwrite the image); `.md` in preview shows the first image of the folder under the md title.
 - **Expected:** "This file type cannot be opened with <app>" or redirect to the default app.
 - **Evidence:** ![](screens/H6-C3-H6-deep-alan-png-in-editor.png) · ![](screens/H6-C3-H6-deep-alan-md-in-preview.png) · draft: [issues/H6-C3.md](issues/H6-C3.md) · console: none
-- **Reproduced:** 1/1 (explorer) (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 1/1 (explorer) (explorer only, no independent verification) · **Known issue:** no; related to bug sweep 2 [preview-wrong-file](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-preview-wrong-file) (covers the preview part; the text editor part is new)
 - **Cause:** `AppWrapper.vue:413-465` (`loadFileTask`) never checks resource type / mime against the app; `web-app-preview/src/App.vue:417-431` falls back to index 0.
 - **Fix idea:** Validate that the resource is a file with a mime type registered for the app.
 
@@ -350,7 +352,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** The preview REPORT aborts the list REPORT (`net::ERR_ABORTED`); the results page shows the spinner forever. Also when clicking into the search bar while the list search runs.
 - **Expected:** The results are shown.
 - **Evidence:** ![](screens/H7-C1-H7-04-enter-fast-d1000-run1.png) · draft: [issues/H7-C1.md](issues/H7-C1.md) · console: none (cancellation swallowed)
-- **Reproduced:** 2/2 (+1/1 click variant) (explorer only, no independent verification) · **Known issue:** no (#3663 is different)
+- **Reproduced:** 2/2 (+1/1 click variant) (explorer only, no independent verification) · **Known issue:** bug sweep 2 (2026-10-12): [search-spinner](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-search-spinner)
 - **Cause:** Preview and list share one restartable task (`packages/web-app-files/src/extensions.ts:41`, `useSearch.ts:38-86`); `packages/web-app-search/src/views/List.vue:37-40` returns on cancel without resetting `loading`; `SearchBar.vue:306-313` cancels the debounce only when already on the results page.
 - **Fix idea:** Separate tasks for preview and list, cancel the debounced preview on Enter, reset `loading` on cancel.
 
@@ -377,7 +379,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** Only file B (tag `x`) is listed; the chip shows `x`. The server answers `tag:"x+y"` correctly.
 - **Expected:** Only file A, chip `x+y`.
 - **Evidence:** ![](screens/H7-C3-H7-08-tag-plus.png) · draft: [issues/H7-C3.md](issues/H7-C3.md) · console: none
-- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** bug sweep 2 (2026-10-12): [search-tag-plus](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-search-tag-plus)
 - **Cause:** Values are joined/split on an unescaped `+` (`packages/web-pkg/src/components/ItemFilter.vue:139-152,225`; `packages/web-pkg/src/composables/search/useSearch.ts:129`).
 - **Fix idea:** Encode each value or use repeated query params.
 
@@ -390,7 +392,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** URL `useScope=false` and all results, but the chip still shows "Current folder"; the next search uses the chip state.
 - **Expected:** Chip shows "All files".
 - **Evidence:** ![](screens/H7-C4-H7-10-loc-after-back-run1.png) · draft: [issues/H7-C4.md](issues/H7-C4.md) · console: none
-- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** related to #3664/#3740/PR #3699 (other components), not covered there
+- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** related to #3664/#3740/PR #3699 (other components), not covered there; related to bug sweep 2 [search-scope-lost](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-search-scope-lost) (same chip/state mismatch after a reload)
 - **Cause:** `packages/web-pkg/src/components/SearchBarFilter.vue:93-133` doesn't watch the `useScope` query; `SearchBar.vue:180,351` only changes it on user input.
 - **Fix idea:** Watch the `useScope` route query.
 
@@ -431,7 +433,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** Focus is on the "New" button behind the backdrop; Escape does nothing; only X closes the modal.
 - **Expected:** Focus stays in the modal; Escape closes it.
 - **Evidence:** ![](screens/H9-3-H9-tok-C-abort-75327.png) · draft: [issues/H9-3.md](issues/H9-3.md) · console: `AxiosError: Network Error` (expected)
-- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 2/2 (explorer only, no independent verification) · **Known issue:** bug sweep 2 (2026-10-12): [modal-esc-after-backdrop](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-modal-esc-after-backdrop)
 - **Cause:** `packages/web-runtime/src/components/Modals/AppTokenModal.vue` disables the focused confirm button while creating; focus is not restored.
 - **Fix idea:** Restore focus into the modal after the request (or don't disable the focused element).
 
@@ -443,7 +445,7 @@ Candidates found: 32 · confirmed by a verifier: 0 (verification cancelled) · n
 - **Actual:** Confirm is enabled; the token would get a blank note.
 - **Expected:** "The note is required" / Confirm disabled.
 - **Evidence:** draft: [issues/H9-4.md](issues/H9-4.md) · console: none
-- **Reproduced:** 1/1 (explorer, checked via isDisabled) (explorer only, no independent verification) · **Known issue:** no
+- **Reproduced:** 1/1 (explorer, checked via isDisabled) (explorer only, no independent verification) · **Known issue:** bug sweep 2 (2026-10-12): [apptoken-note-blank](https://claude.ai/artifact/38LLdn2bsvZG1DJa9nN1T4#f-apptoken-note-blank)
 - **Cause:** `AppTokenModal.vue` `isConfirmDisabled` uses `!tokenLabel` without trim.
 - **Fix idea:** Trim before validating.
 
