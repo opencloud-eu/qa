@@ -5,7 +5,8 @@ description: Agent-driven exploratory testing of an OpenCloud release candidate 
 
 # Release exploratory test (OpenCloud web)
 
-Arguments: `<version>` (e.g. `8.1.0`). Optional: `mobile`, `only=<charter ids>`, `budget=<minutes>` (default 120).
+Arguments: `<version>` (e.g. `8.1.0`). Optional: `mobile`, `only=<charter ids>`, `budget=<minutes>` (default 60),
+`agents=<n>` parallel explorers (default 5).
 
 Charters are created beforehand with `/create-charters`. If `releases/<version>/charters.md` doesn't exist,
 stop and tell the user to run `/create-charters` first.
@@ -38,7 +39,8 @@ releases/<version>/
   report.md        output: final report (committed, linked from the release issue)
   screens/         only screenshots referenced in report.md (committed)
   issues/          bug drafts, one file per finding (committed)
-  log.md           exploration log (committed)
+  log.md           exploration log, merged from results/ (committed)
+  results/         one file per explorer batch: log + confirmed findings (committed)
   screens-raw/     all screenshots (git-ignored)
   scripts/         throw-away Playwright scripts (git-ignored)
   security/        security-relevant findings (git-ignored — NEVER commit, repo is public)
@@ -59,23 +61,45 @@ releases/<version>/
 - Work in priority order: P1, then P2, then P3, within the time budget. R0 (regression smoke) is always P1.
 
 ## 2. Test data
-- Prefix everything you create with `qa-<version>-`.
+- Prefix everything you create with `qa-<version>-` (explorers add their batch: `qa-<version>-B<n>-`).
 - Prefer the UI; to *prepare* data fast use WebDAV/Graph from a node script (Playwright `request` + `USERS` from lib/oc.mjs), not curl with passwords.
 - Include nasty data where relevant: 200+ char names without spaces, unicode/emoji, `#%&?`, 5-level nesting, empty files.
 
-## 3. Explore (per charter, timeboxed ~10–15 min)
+## 3. Explore — parallel subagents
+Split the charters to test into at most `agents` batches (default 5) and start one subagent per batch (Agent tool), all
+at once. Group by area so related charters share a batch (e.g. sharing + links, spaces + admin spaces, editor charters);
+spread the P1 charters over the batches. R0 gets its own batch or goes with the smallest one. Each explorer gets
+`budget − 15` minutes (default 45); the remaining time is for merging and the report. Give each subagent this brief:
+
+> You test charters <IDs> of OpenCloud <version> in the web UI. Read `.claude/skills/release-exploratory-test/SKILL.md`
+> sections "Shell rules", "Unattended", 2, 3 (from "Per charter" on), 4 and "Safety rules" and follow them. Charters:
+> `REL/charters.md`. Prefix your data with `qa-<version>-B<n>-` and touch nothing else. Scripts go to
+> `REL/scripts/B<n>-*.mjs`. Write your log and every confirmed finding to `REL/results/B<n>.md` (charter, what you did,
+> result per charter, findings with steps/expected/actual/screenshot/console/server state, open questions). Clean up
+> your data at the end. Stop after <minutes> minutes and report: result per charter, findings, leftovers.
+
+The main agent waits for all explorers, then merges `REL/results/B*.md` into `log.md` and the report (step 5).
+
 - Scripts in `REL/scripts/`, importing `../../../lib/oc.mjs` (`open`, `login`, `shot`, `layoutCheck`). Prefer role/text locators.
-- Per charter: happy path → variations (other role, mobile, long names, empty state, cancel/escape, reload, second user
-  sees the change) → neighbours of the change (what else uses the same component?).
+- Per charter (timebox ~8–10 min): **happy path first** — the feature as the changelog describes it must work end to end;
+  record it as passed or failed. Then a few variations (other role, mobile, long names, empty state, cancel/escape,
+  reload, second user sees the change) → neighbours of the change (what else uses the same component?).
 - After each meaningful step: `shot()`, check `consoleErrors`, on mobile `layoutCheck()`.
+- **Verify the server state**, not only the UI: after every action that changes data (upload, rename, move, delete,
+  restore, share, link, space, user/group, quota, settings) read it back via WebDAV (`PROPFIND`/`GET`) or Graph and
+  compare with what the UI shows. Use `page.request` with the user's access token from the web app's browser storage
+  (the OIDC client keeps the signed-in user in `sessionStorage`, or `localStorage` if the instance enables it); never
+  pass passwords around. UI and server out of sync is a finding.
 - **Look at the screenshots yourself** (Read the PNG). Do not judge from the DOM alone.
 - Source checkouts `~/Work/web`, `~/Work/opencloud` (if present) are read-only references for intended behavior and
   component names. Do not modify them.
 - Append to `REL/log.md`: charter, what you did, observations, open questions.
 
 ## 4. Confirm findings
+Each explorer confirms its own findings (there is no separate verification round).
 Report a finding only if: (1) reproduced **at least twice** from a fresh page/login, (2) a screenshot shows it,
-(3) it is not caused by your own test data or instance config.
+(3) it is not caused by your own test data or instance config. A broken user flow is a finding, not an observation;
+"observation" is only for behavior that may be intended.
 Severity: **Blocker** (data loss, security, core flow broken, crash) · **Major** (changelog feature doesn't work, no workaround)
 · **Minor** (workaround exists, layout) · **Question** (unclear if intended).
 Known? `gh issue list -R opencloud-eu/web --search "<keywords>" --state all` (also opencloud-eu/opencloud) → "known: #123".
