@@ -40,7 +40,15 @@ This is done once.
    ```bash
    gh auth login
    ```
-3. Create the credentials file and fill in the instance URL, the admin password and the demo user password.
+3. Optional: install the Claude Code Playwright plugin. It lets you or the agent look at a page interactively,
+   e.g. to double-check a finding. The test runs don't need it, they use Playwright from this repository through
+   `exploratory/lib/oc.mjs`.
+   ```bash
+   claude plugin marketplace add anthropics/claude-plugins-official
+   claude plugin install playwright@claude-plugins-official
+   ```
+   Restart Claude Code afterwards; `/plugin` lists it as installed.
+4. Create the credentials file and fill in the instance URL, the admin password and the demo user password.
    This file is never committed.
    ```bash
    cd ~/Work/qa
@@ -185,6 +193,38 @@ Add this to the *QA Phase* of the release issue:
   - [ ] report: https://github.com/opencloud-eu/qa/blob/main/exploratory/releases/<version>/report.md
   - [ ] findings triaged → "Collected bugs"
 ```
+
+## Hunting for bugs in the whole web UI
+
+The release test above checks whether the **changes of a release** work. To find bugs anywhere in the web UI — also in
+code that didn't change — run a bug hunt instead. It doesn't need charters:
+
+```
+/exploratory-bug-hunt
+```
+
+The skill is part of this repository (`.claude/skills/exploratory-bug-hunt/`), like the release test skill, so there is
+nothing to install: pull `main` and start `claude` from the repository root (see step 3 above); `/exploratory-bug-hunt`
+is then available. If it isn't listed, Claude Code was started outside the repository root (see Troubleshooting).
+
+Optional arguments: `areas=H1,H3` to hunt in selected areas only, `budget=240` (minutes, default 240), `agents=5`
+(parallel explorers, default 5) and `mobile` to add a phone pass to every area.
+
+How it differs from the release test:
+
+- **Whole app, by area** (files, upload/trash, sharing, public links, spaces, viewers/editors, search, admin settings,
+  account, runtime) instead of the changelog. The areas are written to `releases/hunt-<date>/areas.md`.
+- **Parallel subagents**, one per area, and a second round of verifier subagents that reproduce every candidate twice
+  from a fresh login. Only confirmed findings end up in the report.
+- **Code-guided**: if a read-only web checkout exists at `~/Work/web` (ideally on the deployed tag), the agents read the
+  area's source first and target suspicious spots. Findings name the likely cause with file and line.
+- **Breaking the flow on purpose**: cancel/Escape/X, back/forward, reload, double clicks, fast typing, slow or failing
+  requests (Playwright `page.route`), other roles and a second user watching, edge-case data, keyboard only.
+- **Server state is checked** through WebDAV/Graph, using the signed-in user's token from the browser session.
+
+A hunt with the default settings takes about four hours and uses noticeably more tokens than a release test. The
+result is `exploratory/releases/hunt-<date>/report.md` with issue drafts, committed on the branch
+`exploratory/hunt-<date>` — review, file and publish it the same way as in steps 7–9.
 
 ## Rules for the agent
 
