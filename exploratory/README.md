@@ -1,250 +1,184 @@
-# Exploratory release testing with Claude Code and Playwright
+# Exploratory Testing with Claude Code and Playwright
 
-This folder contains everything needed to let an AI agent (Claude Code) run an exploratory test of an
-OpenCloud release candidate. The agent reads the changelog, turns it into test charters, explores the web UI
-with Playwright in a real browser, and writes a report with screenshots. The test manager reviews the report,
-files the bugs and links the report from the release issue.
+An AI agent (Claude Code) explores the OpenCloud web UI in a real browser and writes a report with screenshots
+and bug drafts. The test manager reviews the report, files the bugs and publishes it.
 
-## How it is organized
+Two modes:
 
-Each release gets its own folder:
+- **Release test** — checks the changes of a release, driven by the changelog.
+- **Bug hunt** — looks for bugs anywhere in the web UI.
 
-```
-exploratory/releases/<version>/
-  charters.md   the changelog turned into test charters (reviewed by the test manager)
-  report.md     the result, linked from the release issue
-  screens/      screenshots used as evidence in the report
-  issues/       bug drafts, ready for `gh issue create --body-file`
-  log.md        what the agent did
-```
+> [!IMPORTANT]
+> Run every command, including `claude`, from the repository root `~/Work/qa`. Otherwise Claude Code doesn't load
+> the skills and the permission rules.
 
-The folders `screens-raw/`, `scripts/` and `security/` are created during a run as well, but stay local (git-ignored).
+## Table of Contents
 
-The method itself is defined in the Claude Code skill `.claude/skills/release-exploratory-test/`, the permission
-rules in `.claude/settings.json`. Shared Playwright helpers (login, screenshots, layout checks) are in `lib/`.
+- [Setup](#setup)
+- [Release Test](#release-test)
+- [Bug Hunt](#bug-hunt)
+- [Publish the Results](#publish-the-results)
+- [Folder Layout](#folder-layout)
+- [Rules for the Agent](#rules-for-the-agent)
+- [Troubleshooting](#troubleshooting)
 
-**Important:** always run all commands — including `claude` — from the repository root `~/Work/qa`.
-Claude Code only picks up the skill and the permission rules when started there; otherwise it asks for approval
-on every single command.
+## Setup
 
-## Setting up a machine
-
-This is done once.
-
-1. Install Claude Code and log in:
-   ```bash
-   curl -fsSL https://claude.ai/install.sh | bash
-   claude        # log in, then exit
-   ```
-2. Log in with the GitHub CLI, the agent uses it to read release notes and search existing issues:
-   ```bash
-   gh auth login
-   ```
-3. Optional: install the Claude Code Playwright plugin. It lets you or the agent look at a page interactively,
-   e.g. to double-check a finding. The test runs don't need it, they use Playwright from this repository through
-   `exploratory/lib/oc.mjs`.
-   ```bash
-   claude plugin marketplace add anthropics/claude-plugins-official
-   claude plugin install playwright@claude-plugins-official
-   ```
-   Restart Claude Code afterwards; `/plugin` lists it as installed.
-4. Create the credentials file and fill in the instance URL, the admin password and the demo user password.
-   This file is never committed.
-   ```bash
-   cd ~/Work/qa
-   cp exploratory/.env.example exploratory/.env
-   ```
-
-## Testing a release
-
-### 1. Update the repository and Playwright
-
-Playwright is already a dependency of this repository (`@playwright/test` in the root `package.json`, Node 20+ required).
-Before each release, update the repository and install the matching browser:
+### Once per Machine
 
 ```bash
-cd ~/Work/qa
-git switch main && git pull
-pnpm install
-pnpm exec playwright install chromium
+curl -fsSL https://claude.ai/install.sh | bash   # install Claude Code, then run `claude` once to log in
+gh auth login
+cp exploratory/.env.example exploratory/.env     # instance URL and passwords, never committed
 ```
 
-### 2. Check the test instance
-
-You need a running test instance with the release candidate and the demo users
-(`admin`, `dennis`, `margaret`, `alan`, `lynn`, `mary` with password `demo`).
-How it is deployed doesn't matter — the agent only needs the URL and the credentials from `exploratory/.env`.
-
-Check that all users can log in:
+Optional, to look at pages interactively:
 
 ```bash
-pnpm exploratory:smoke
+claude plugin marketplace add anthropics/claude-plugins-official
+claude plugin install playwright@claude-plugins-official
 ```
 
-Every user should be reported as `OK`. If one fails, a screenshot of what the browser saw is saved as
-`smoke-FAIL-<user>.png` (see Troubleshooting).
+### Before Each Run
 
-### 3. Start Claude Code
+1. Prepare a test instance with the release candidate and the demo users
+   `admin`, `dennis`, `margaret`, `alan`, `lynn`, `mary`. Put its URL into `exploratory/.env`.
+2. Update the repository and the browser (Node 20+):
 
-```bash
-claude
-```
+   ```bash
+   git switch main && git pull
+   pnpm install
+   pnpm exec playwright install chromium
+   ```
 
-To make sure the project settings are loaded, type `/permissions` — the list should contain rules like `Bash(node *)`.
+3. Check that every user can log in:
 
-### 4. Create the charters
+   ```bash
+   pnpm exploratory:smoke
+   ```
 
-A charter describes one area to explore: what changed, what could break, which roles are involved,
-whether to test on desktop or mobile, and the priority. The agent writes them from the changelog — you only
-tell it the versions. In the running Claude Code session type:
+4. Start Claude Code:
+
+   ```bash
+   claude
+   ```
+
+## Release Test
+
+### 1. Create the Charters
 
 ```
 /create-charters
 ```
 
-The agent asks three questions, one after the other:
+The agent asks for the OpenCloud, web and reva versions, reads their changelogs and writes
+`releases/<version>/charters.md`. Then it stops.
 
-```
-Which OpenCloud version do you want to test?   → 8.1.0
-Which web version is included?                 → 8.1.0
-Which reva version is included?                → 2.x.y
-```
+### 2. Review the Charters
 
-For each component it then takes the changelog from the release tag if it already exists, otherwise from the
-open release PR (e.g. https://github.com/opencloud-eu/opencloud/pull/3534). If it can't find a source unambiguously,
-it asks you for the link. It also checks which optional features the instance offers (office, Excalidraw, vaults,
-guests, full-text search) and marks charters for missing features as out of scope.
+Edit `charters.md` as plain text, the agent follows your notes:
 
-Result: the folder `exploratory/releases/8.1.0/` with `charters.md` — the sources at the top, then the charters table
-and the out-of-scope list. The agent prints a short overview with open questions and stops; nothing is tested yet.
+- move a charter to *Out of scope* with a reason
+- change the priority (P1 must, P2 should, P3 if time allows)
+- add a hint or your own charter
 
-### 5. Review the charters
-
-Open `charters.md` and adjust it. It is plain Markdown and the agent treats your notes as instructions, so there is
-no special syntax:
-
-- If something can't or shouldn't be tested, move the line to *Out of scope* and give the reason,
-  e.g. `- C15 Office — no Collabora on the instance`.
-- Change the priority (P1 = must, P2 = should, P3 = if time allows) or add a hint directly in the row,
-  e.g. `yes — focus on live co-editing`.
-- Add your own charter at the end in the same format, for example a bug you want re-checked.
-
-The *viewport* column says in which browser size the web UI is tested: `desktop` is a 1440×900 browser window,
-`mobile` is a Pixel 7 phone emulation. Both refer to the web UI, not to the native clients.
-
-### 6. Run the test
+### 3. Run the Test
 
 ```
 /release-exploratory-test <version>
 ```
 
-A run takes one to two hours and runs hundreds of commands. To keep it from stopping for approvals, the repository
-has a hook (`.claude/hooks/bash-guard.mjs`): simple commands (`node`, `git status`, `gh pr view`, `ls` …) are approved
-automatically, compound commands (`cd … && …`, loops, pipes) are rejected with an explanation so the agent rewrites
-them itself, and forbidden ones (`git push`, `gh issue create`, `rm -rf`, reading `.env`) are denied. You should
-rarely see a prompt; if one appears, send the command to the maintainer of this folder.
+Up to 5 explorers test the charters in parallel. A run takes about 1 hour and needs no input.
 
-Optional arguments: `only=C1,C3` to test selected charters, `mobile` to focus on the phone layout,
-`budget=60` to limit the time in minutes (default 120). Say "run headed" if you want to watch the browser.
-It requires `charters.md` from step 4.
+Options:
 
-The agent doesn't ask questions during the run: it notes assumptions in `log.md` and collects open questions in
-the report. It works through the charters by priority, takes screenshots and looks at them, reproduces every finding
-twice and checks whether it is already reported. At the end it prints a summary and commits the release folder on
-the branch `exploratory/<version>`. It never pushes and never creates issues.
+| Option         | Description                             |
+| -------------- | --------------------------------------- |
+| `only=C1,C3`   | test only these charters                |
+| `mobile`       | focus on the phone layout (Pixel 7)     |
+| `budget=60`    | time in minutes (default 60)            |
+| `agents=5`     | number of parallel explorers (default 5)|
 
-### 7. Review the report
+Say "run headed" to watch the browser.
 
-Read `exploratory/releases/<version>/report.md` (the screenshots render in the VS Code Markdown preview).
-Remove or downgrade findings you don't agree with. You can also ask the agent in the same session to re-check
-a finding or to look at something in more detail.
-
-Security-relevant findings are never written to the report. They are stored in the git-ignored `security/` folder
-and must be reported privately.
-
-### 8. File the issues
-
-Create an issue for every finding you accept, using the prepared draft:
-
-```bash
-gh issue create -R opencloud-eu/web --title "<title>" \
-  --body-file exploratory/releases/<version>/issues/<ID>.md --label Type:Bug
-```
-
-Then add the issue numbers to the report — or ask the agent to do it ("add #123 to finding F2") — and commit.
-
-### 9. Publish the report
-
-```bash
-git push -u origin exploratory/<version>
-gh pr create -R opencloud-eu/qa --fill
-```
-
-After the PR is merged, the report is available at
-`https://github.com/opencloud-eu/qa/blob/main/exploratory/releases/<version>/report.md`.
-
-### 10. Link it in the release issue
-
-Add this to the *QA Phase* of the release issue:
-
-```
-- [ ] Agent exploratory testing of the changelog @ScharfViktor
-  - [ ] smoke OK on RC instance
-  - [ ] report: https://github.com/opencloud-eu/qa/blob/main/exploratory/releases/<version>/report.md
-  - [ ] findings triaged → "Collected bugs"
-```
-
-## Hunting for bugs in the whole web UI
-
-The release test above checks whether the **changes of a release** work. To find bugs anywhere in the web UI — also in
-code that didn't change — run a bug hunt instead. It doesn't need charters:
+## Bug Hunt
 
 ```
 /exploratory-bug-hunt
 ```
 
-The skill is part of this repository (`.claude/skills/exploratory-bug-hunt/`), like the release test skill, so there is
-nothing to install: pull `main` and start `claude` from the repository root (see step 3 above); `/exploratory-bug-hunt`
-is then available. If it isn't listed, Claude Code was started outside the repository root (see Troubleshooting).
+Explorers cover the whole web UI area by area. They read the web source code (`~/Work/web`, if present) and break
+flows on purpose. A second round of verifiers reproduces each finding. Takes about 4 hours and uses more tokens than
+a release test.
 
-Optional arguments: `areas=H1,H3` to hunt in selected areas only, `budget=240` (minutes, default 240), `agents=5`
-(parallel explorers, default 5) and `mobile` to add a phone pass to every area.
+| Option         | Description                             |
+| -------------- | --------------------------------------- |
+| `areas=H1,H3`  | hunt only in these areas                |
+| `mobile`       | add a phone pass to every area          |
+| `budget=240`   | time in minutes (default 240)           |
+| `agents=5`     | number of parallel explorers (default 5)|
 
-How it differs from the release test:
+## Publish the Results
 
-- **Whole app, by area** (files, upload/trash, sharing, public links, spaces, viewers/editors, search, admin settings,
-  account, runtime) instead of the changelog. The areas are written to `releases/hunt-<date>/areas.md`.
-- **Parallel subagents**, one per area, and a second round of verifier subagents that reproduce every candidate twice
-  from a fresh login. Only confirmed findings end up in the report.
-- **Code-guided**: if a read-only web checkout exists at `~/Work/web` (ideally on the deployed tag), the agents read the
-  area's source first and target suspicious spots. Findings name the likely cause with file and line.
-- **Breaking the flow on purpose**: cancel/Escape/X, back/forward, reload, double clicks, fast typing, slow or failing
-  requests (Playwright `page.route`), other roles and a second user watching, edge-case data, keyboard only.
-- **Server state is checked** through WebDAV/Graph, using the signed-in user's token from the browser session.
+The agent commits the results on the branch `exploratory/<version>` (or `exploratory/hunt-<date>`). It never pushes
+and never creates issues.
 
-A hunt with the default settings takes about four hours and uses noticeably more tokens than a release test. The
-result is `exploratory/releases/hunt-<date>/report.md` with issue drafts, committed on the branch
-`exploratory/hunt-<date>` — review, file and publish it the same way as in steps 7–9.
+1. Review `report.md`. Remove or downgrade findings you don't agree with, or ask the agent to re-check one.
+2. File each accepted finding:
 
-## Rules for the agent
+   ```bash
+   gh issue create -R opencloud-eu/web --title "<title>" \
+     --body-file exploratory/releases/<version>/issues/<ID>.md --label Type:Bug
+   ```
 
-- It works on test instances only. Everything it creates is prefixed with `qa-<version>-`.
-- It never changes the admin or demo user accounts and restores any global setting it had to change.
-- The repository is public: no credentials and no security findings are committed.
-- It never creates issues, comments or pushes — that is the test manager's job.
+3. Add the issue numbers to the report (or ask the agent), commit, then:
+
+   ```bash
+   git push -u origin exploratory/<version>
+   gh pr create -R opencloud-eu/qa --fill
+   ```
+
+4. After the merge, add this to the *QA Phase* of the release issue:
+
+   ```
+   - [ ] Agent exploratory testing of the changelog @ScharfViktor
+     - [ ] smoke OK on RC instance
+     - [ ] report: https://github.com/opencloud-eu/qa/blob/main/exploratory/releases/<version>/report.md
+     - [ ] findings triaged → "Collected bugs"
+   ```
+
+## Folder Layout
+
+```
+exploratory/
+  lib/                     shared Playwright helpers (login, screenshots, layout checks)
+  releases/<version>/
+    charters.md            the changelog turned into charters
+    report.md              the result
+    screens/               screenshots used in the report
+    issues/                bug drafts for `gh issue create`
+    results/               one file per explorer
+    log.md                 what the agents did
+```
+
+`screens-raw/`, `scripts/` and `security/` stay local (git-ignored). The skills are in `.claude/skills/`.
+
+## Rules for the Agent
+
+- Test instances only. Everything it creates starts with `qa-<version>-`.
+- It doesn't change the admin or demo accounts and restores any setting it changes.
+- No credentials and no security findings in committed files — the repository is public.
+  Security findings go to `security/` and are reported privately.
+- No push, no issues, no comments.
+- A hook (`.claude/hooks/bash-guard.mjs`) approves simple commands and blocks dangerous ones.
+  If you still get a prompt, send the command to the maintainer of this folder.
 
 ## Troubleshooting
 
-**Claude Code asks for approval on every command, or doesn't know `/create-charters` / `/release-exploratory-test`.**
-It was started outside the repository root. Exit with `/exit`, then run `cd ~/Work/qa && claude --continue`.
-
-**The smoke test fails for demo users.** Demo users are not enabled on the instance or have a different password.
-Look at `smoke-FAIL-<user>.png` in `exploratory/releases/_scratch/screens-raw/`.
-
-**The smoke test times out for admin.** The instance is not reachable from this machine — check the URL in a browser,
-the certificate and `/etc/hosts`.
-
-**`pnpm install` complains about the Node version.** Playwright 1.64 needs Node 20 or newer (`node -v`).
-
-**Where are the screenshots?** All of them are in `exploratory/releases/<version>/screens-raw/`, the ones used in the
-report in `screens/`. Before a release is selected (e.g. during the smoke test) they go to `exploratory/releases/_scratch/`.
+| Problem                                              | Solution                                                                         |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Approval prompt on every command, or unknown `/…` skill | Claude Code started outside the repo root. `/exit`, then `cd ~/Work/qa && claude --continue` |
+| Smoke test fails for demo users                      | Demo users not enabled or wrong password. See `releases/_scratch/screens-raw/smoke-FAIL-<user>.png` |
+| Smoke test times out for admin                       | Instance not reachable. Check the URL, the certificate and `/etc/hosts`          |
+| `pnpm install` complains about Node                  | Playwright needs Node 20+ (`node -v`)                                            |
+| Where are all screenshots?                           | `releases/<version>/screens-raw/`                                                |
