@@ -5,15 +5,15 @@ description: Create exploratory test charters for an OpenCloud release from the 
 
 # Create charters for a release
 
-Output: `exploratory/releases/<opencloud-version>/charters.md`, the input for `/release-exploratory-test`.
-Talk to the user in **English** for the questions below; keep the chat short.
+Output: `release-testing/exploratory/releases/<opencloud-version>/charters.md`, the input for `/release-exploratory-test`.
+Ask the questions below in the language the user writes in; keep the chat short.
 
 
 ## Shell rules (avoid permission prompts)
 - One simple command per Bash call. No chains with `;`, `&&`, `||`, no `set -a`, no `source`/`.`, no subshells.
-- Never read or source `exploratory/.env`. For URL/version use `node exploratory/lib/status.mjs`;
-  for logins use `node exploratory/lib/smoke.mjs`; in scripts import `URL`, `USERS` from `exploratory/lib/oc.mjs`.
-- Run scripts from the repo root: `node exploratory/...` (no `cd`).
+- Never read or source `release-testing/.env`. For URL/version use `node release-testing/lib/status.mjs`;
+  for logins use `node release-testing/lib/smoke.mjs`; in scripts import `URL`, `USERS` from `release-testing/lib/oc.mjs`.
+- Run scripts from the repo root: `node release-testing/...` (no `cd`).
 - Run Playwright scripts in the **foreground** (Bash timeout up to 600000 ms). Never run in background and never poll
   output files with loops/sleep; let the script print its results. Split scripts that need more than 10 minutes.
 - A hook (`.claude/hooks/bash-guard.mjs`) auto-approves simple commands and blocks compound ones with an explanation —
@@ -25,7 +25,7 @@ Talk to the user in **English** for the questions below; keep the chat short.
 3. "Which reva version is included? (e.g. 2.47.0)"
 
 Accept answers with or without a leading `v`. If the user already gave versions as arguments, don't ask again.
-If `exploratory/releases/<version>/charters.md` already exists, ask whether to overwrite it before continuing.
+If `release-testing/exploratory/releases/<version>/charters.md` already exists, ask whether to overwrite it before continuing.
 
 ## 2. Find the changelog for each component
 For each repo (`opencloud-eu/opencloud`, `opencloud-eu/web`, `opencloud-eu/reva`), in this order:
@@ -42,15 +42,15 @@ For each repo (`opencloud-eu/opencloud`, `opencloud-eu/web`, `opencloud-eu/reva`
 Tell the user in one line per component which source you used (tag / PR #… / merged PRs since …).
 
 ## 3. Check the instance
-- `node exploratory/lib/status.mjs` must show `.env: present` and a status.php answer; `node exploratory/lib/smoke.mjs` must log in admin (other users optional here).
-- `node exploratory/lib/status.mjs` → compare `productversion` with the OpenCloud version; mention a mismatch, don't stop.
-- Probe optional features with a short Playwright script (as admin and as `alan`), using `exploratory/lib/oc.mjs`:
+- `node release-testing/lib/status.mjs` must show `.env: present` and a status.php answer; `node release-testing/lib/smoke.mjs` must log in admin (other users optional here).
+- `node release-testing/lib/status.mjs` → compare `productversion` with the OpenCloud version; mention a mismatch, don't stop.
+- Probe optional features with a short Playwright script (as admin and as `alan`), using `release-testing/lib/oc.mjs`:
   entries in the "New" menu (Excalidraw, office formats), app store / extensions, office app (Collabora / OnlyOffice /
   EuroOffice), vaults / encrypted spaces, guest invite, full-text search. Write `releases/<version>` into
-  `exploratory/releases/.current` first so screenshots land in the release folder.
+  `release-testing/exploratory/releases/.current` first so screenshots land in the release folder.
 
 ## 4. Write the charters
-Create `exploratory/releases/<version>/` and write `charters.md`:
+Create `release-testing/exploratory/releases/<version>/` and write `charters.md`:
 
 ```
 # Charters — OpenCloud <version> (<rolling|production>)
@@ -81,5 +81,5 @@ Rules:
 
 ## 5. Hand over
 Print a short summary: number of charters per priority, out-of-scope list, questions for the test manager.
-Then say: "Review `exploratory/releases/<version>/charters.md`, then run `/release-exploratory-test <version>`."
+Then say: "Review `release-testing/exploratory/releases/<version>/charters.md`, then run `/release-exploratory-test <version>`."
 Do not start testing.

@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "exploratory:smoke": "node exploratory/lib/smoke.mjs",
-    "exploratory:status": "node exploratory/lib/status.mjs"
+    "exploratory:smoke": "node release-testing/lib/smoke.mjs",
+    "exploratory:status": "node release-testing/lib/status.mjs"
   },
   "keywords": [],
   "author": "",

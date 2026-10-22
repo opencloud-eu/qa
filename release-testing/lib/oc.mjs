@@ -1,12 +1,13 @@
-// Shared helpers for exploratory release testing of OpenCloud web.
-// Throw-away scripts in releases/<version>/scripts/ import them:
-//   import { open, login, shot, layoutCheck } from '../../../lib/oc.mjs'
+// Shared helpers for release testing of OpenCloud web (exploratory and upgrade).
+// Throw-away scripts in exploratory/releases/<version>/scripts/ import them:
+//   import { open, login, shot, layoutCheck } from '../../../../lib/oc.mjs'
 import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium, devices } from '@playwright/test'; // uses the repo's existing Playwright dependency
 
-export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'); // .../qa/exploratory
+export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'); // .../qa/release-testing
+const EXPLORATORY = path.join(ROOT, 'exploratory');
 // minimal .env loader (no extra dependency); real env vars win
 const ENV_FILE = path.join(ROOT, '.env');
 if (fs.existsSync(ENV_FILE)) {
@@ -26,9 +27,10 @@ export const USERS = {
   mary:     { user: 'mary',     pass: process.env.OC_DEMO_PASSWORD, role: 'User' },
 };
 
-// Release folder under test: env RUN_DIR, else the path written in releases/.current (e.g. "releases/8.1.0").
-const CURRENT = path.join(ROOT, 'releases', '.current');
-export const RUN_DIR = path.resolve(ROOT, process.env.RUN_DIR
+// Folder of the current run: env RUN_DIR (set by upgrade/env.mjs), else the path written in
+// exploratory/releases/.current (e.g. "releases/8.1.0").
+const CURRENT = path.join(EXPLORATORY, 'releases', '.current');
+export const RUN_DIR = path.resolve(EXPLORATORY, process.env.RUN_DIR
   || (fs.existsSync(CURRENT) ? fs.readFileSync(CURRENT, 'utf8').trim() : 'releases/_scratch'));
 // All screenshots land in screens-raw/ (git-ignored). Evidence used in report.md is copied to screens/ (committed).
 const RAW = path.join(RUN_DIR, 'screens-raw');
@@ -49,7 +51,7 @@ export async function open({ viewport = 'desktop', headless = !process.env.HEADE
 
 /** Log in through the OpenCloud IdP. Selectors are tolerant; fix here once if the login page changes. */
 export async function login(page, who = 'admin') {
-  const u = USERS[who] ?? { user: who, pass: process.env.OC_DEMO_PASSWORD };
+  const u = typeof who === 'object' ? who : USERS[who] ?? { user: who, pass: process.env.OC_DEMO_PASSWORD };
   await page.goto(URL, { waitUntil: 'domcontentloaded' });
   const userField = page.locator('#oc-login-username, input[name="username"], input[autocomplete="username"]').first();
   await userField.waitFor({ timeout: 30000 });

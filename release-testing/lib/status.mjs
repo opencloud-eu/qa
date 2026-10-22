@@ -1,12 +1,12 @@
 // Prints instance info without exposing credentials: .env present?, OC_URL, status.php.
-// Usage (from repo root): node exploratory/lib/status.mjs
+// Usage (from repo root): node release-testing/lib/status.mjs
 import fs from 'node:fs';
 import path from 'node:path';
 import { request } from '@playwright/test';
 import { ROOT, URL } from './oc.mjs';
 
 const envFile = path.join(ROOT, '.env');
-console.log(`.env: ${fs.existsSync(envFile) ? 'present' : 'MISSING — cp exploratory/.env.example exploratory/.env'}`);
+console.log(`.env: ${fs.existsSync(envFile) ? 'present' : 'MISSING — cp release-testing/.env.example release-testing/.env'}`);
 console.log(`OC_URL: ${URL ?? '(not set)'}`);
 if (!URL) process.exit(1);
 const ctx = await request.newContext({ ignoreHTTPSErrors: true });
