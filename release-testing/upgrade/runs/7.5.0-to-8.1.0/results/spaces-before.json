@@ -1,0 +1,72 @@
+[
+  {
+    "name": "space name and description",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "space quota 3 GB",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "space image and readme",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "space image content",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "space members and link",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "viewer membership keeps expiration",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: docs/versions.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: docs/sub/file.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: docs/by-lynn.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "space file versions",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "space trash",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "disabled space stays disabled",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "lynn still sees the space",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "mary still sees the space",
+    "ok": true,
+    "detail": ""
+  }
+]
