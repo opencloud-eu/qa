@@ -1,0 +1,9 @@
+# compose worktrees and env files of the test stack
+.work/
+# seeded ids and generated passwords, raw screenshots, scratch scripts, security drafts
+runs/*/state/
+runs/*/screens-raw/
+runs/*/scripts/
+runs/*/security/
+runs/.current
+runs/_scratch/

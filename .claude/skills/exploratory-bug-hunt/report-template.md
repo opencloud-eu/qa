@@ -1,6 +1,6 @@
 # Bug hunt report — OpenCloud web, <date>
 
-**Instance:** <url> · **Server:** <status.php version> · **Web:** <version> · **Source:** <~/Work/web tag/commit or "not used">
+**Instance:** <url> · **Server:** <status.php version> · **Web:** <version> · **Source:** <~/Work/opencloud/web tag/commit or "not used">
 **Date / duration:** <date>, <minutes> min · **Agent:** Claude Code (<n> explorers, <m> verifiers) · **Browser:** Chromium (desktop 1440×900, Pixel 7)
 **Users:** admin, dennis, margaret, alan, lynn, mary · **Areas:** [areas.md](areas.md)
 

@@ -1,6 +1,6 @@
 ---
 name: release-exploratory-test
-description: Agent-driven exploratory testing of an OpenCloud release candidate in the web UI with Playwright, driven by the release changelog. Produces exploratory/releases/<version>/report.md in the opencloud-eu/qa repo. Use for "test release X", "exploratory test 8.x", or /release-exploratory-test <version>.
+description: Agent-driven exploratory testing of an OpenCloud release candidate in the web UI with Playwright, driven by the release changelog. Produces release-testing/exploratory/releases/<version>/report.md in the opencloud-eu/qa repo. Use for "test release X", "exploratory test 8.x", or /release-exploratory-test <version>.
 ---
 
 # Release exploratory test (OpenCloud web)
@@ -14,14 +14,14 @@ stop and tell the user to run `/create-charters` first.
 You are an experienced exploratory tester. Goal: find **real, user-visible problems** in this release — not to re-run
 the CI suite. Every claim in the report must be backed by a screenshot and a reproduction you executed yourself.
 
-All paths below are relative to `exploratory/` in the opencloud-eu/qa repo. Release folder: `releases/<version>/` (= REL).
+All paths below are relative to `release-testing/exploratory/` in the opencloud-eu/qa repo. Release folder: `releases/<version>/` (= REL).
 
 
 ## Shell rules (avoid permission prompts)
 - One simple command per Bash call. No chains with `;`, `&&`, `||`, no `set -a`, no `source`/`.`, no subshells.
-- Never read or source `exploratory/.env`. For URL/version use `node exploratory/lib/status.mjs`;
-  for logins use `node exploratory/lib/smoke.mjs`; in scripts import `URL`, `USERS` from `exploratory/lib/oc.mjs`.
-- Run scripts from the repo root: `node exploratory/...` (no `cd`).
+- Never read or source `release-testing/.env`. For URL/version use `node release-testing/lib/status.mjs`;
+  for logins use `node release-testing/lib/smoke.mjs`; in scripts import `URL`, `USERS` from `release-testing/lib/oc.mjs`.
+- Run scripts from the repo root: `node release-testing/...` (no `cd`).
 - Run Playwright scripts in the **foreground** (Bash timeout up to 600000 ms). Never run in background and never poll
   output files with loops/sleep; let the script print its results. Split scripts that need more than 10 minutes.
 - A hook (`.claude/hooks/bash-guard.mjs`) auto-approves simple commands and blocks compound ones with an explanation —
@@ -47,12 +47,12 @@ releases/<version>/
 ```
 
 ## 0. Preconditions (stop and ask if one fails)
-- `exploratory/.env` exists, `OC_URL` points to a **test** instance. Never test anything that looks like production. Do not read `.env`.
+- `release-testing/.env` exists, `OC_URL` points to a **test** instance. Never test anything that looks like production. Do not read `.env`.
 - Create `releases/<version>/` if it doesn't exist and write `releases/<version>` into `releases/.current`
-  (lib/oc.mjs uses it for screenshots).
-- `node exploratory/lib/smoke.mjs` logs in as admin and all demo users. If login fails, fix selectors in `lib/oc.mjs` once, rerun.
-- Record versions: `node exploratory/lib/status.mjs` and web version (account page / About). If they don't match `<version>`, stop and tell the user.
-- Run scripts as plain `node exploratory/releases/<version>/scripts/<name>.mjs` from the repo root — no env prefixes, no `cd`, no `rm`.
+  (release-testing/lib/oc.mjs uses it for screenshots).
+- `node release-testing/lib/smoke.mjs` logs in as admin and all demo users. If login fails, fix selectors in `release-testing/lib/oc.mjs` once, rerun.
+- Record versions: `node release-testing/lib/status.mjs` and web version (account page / About). If they don't match `<version>`, stop and tell the user.
+- Run scripts as plain `node release-testing/exploratory/releases/<version>/scripts/<name>.mjs` from the repo root — no env prefixes, no `cd`, no `rm`.
 
 ## 1. Charters
 - Use `REL/charters.md` (created by `/create-charters`, reviewed by the test manager). Treat notes in it as instructions
@@ -62,7 +62,7 @@ releases/<version>/
 
 ## 2. Test data
 - Prefix everything you create with `qa-<version>-` (explorers add their batch: `qa-<version>-B<n>-`).
-- Prefer the UI; to *prepare* data fast use WebDAV/Graph from a node script (Playwright `request` + `USERS` from lib/oc.mjs), not curl with passwords.
+- Prefer the UI; to *prepare* data fast use WebDAV/Graph from a node script (Playwright `request` + `USERS` from release-testing/lib/oc.mjs), not curl with passwords.
 - Include nasty data where relevant: 200+ char names without spaces, unicode/emoji, `#%&?`, 5-level nesting, empty files.
 
 ## 3. Explore — parallel subagents
@@ -80,7 +80,7 @@ spread the P1 charters over the batches. R0 gets its own batch or goes with the 
 
 The main agent waits for all explorers, then merges `REL/results/B*.md` into `log.md` and the report (step 5).
 
-- Scripts in `REL/scripts/`, importing `../../../lib/oc.mjs` (`open`, `login`, `shot`, `layoutCheck`). Prefer role/text locators.
+- Scripts in `REL/scripts/`, importing `../../../../lib/oc.mjs` (`open`, `login`, `shot`, `layoutCheck`). Prefer role/text locators.
 - Per charter (timebox ~8–10 min): **happy path first** — the feature as the changelog describes it must work end to end;
   record it as passed or failed. Then a few variations (other role, mobile, long names, empty state, cancel/escape,
   reload, second user sees the change) → neighbours of the change (what else uses the same component?).
@@ -91,7 +91,7 @@ The main agent waits for all explorers, then merges `REL/results/B*.md` into `lo
   (the OIDC client keeps the signed-in user in `sessionStorage`, or `localStorage` if the instance enables it); never
   pass passwords around. UI and server out of sync is a finding.
 - **Look at the screenshots yourself** (Read the PNG). Do not judge from the DOM alone.
-- Source checkouts `~/Work/web`, `~/Work/opencloud` (if present) are read-only references for intended behavior and
+- Source checkouts `~/Work/opencloud/web`, `~/Work/opencloud/opencloud` (if present) are read-only references for intended behavior and
   component names. Do not modify them.
 - Append to `REL/log.md`: charter, what you did, observations, open questions.
 
@@ -112,10 +112,10 @@ report.md just "1 security finding reported privately", and tell the user in cha
 2. Write `REL/report.md` from `report-template.md` (this folder) and one draft per finding in `REL/issues/<ID>.md`
    (title line + body ready for `gh issue create --body-file`).
 3. Never put passwords, tokens or the `.env` content into any committed file.
-4. `git add exploratory/releases/<version>` and commit on branch `exploratory/<version>` (create it from the current HEAD with `git checkout -b`; if it exists, switch to it) with message
+4. `git add release-testing/exploratory/releases/<version>` and commit on branch `exploratory/<version>` (create it from the current HEAD with `git checkout -b`; if it exists, switch to it) with message
    `exploratory: report for <version>`. **Do not push** — the test manager reviews and pushes/opens the PR.
 5. Chat summary: counts by severity, top 3 findings, coverage, items needing a human decision, and the future link
-   `https://github.com/opencloud-eu/qa/blob/main/exploratory/releases/<version>/report.md`.
+   `https://github.com/opencloud-eu/qa/blob/main/release-testing/exploratory/releases/<version>/report.md`.
 - **Do not create GitHub issues or comments yourself.**
 
 ## Safety rules

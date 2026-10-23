@@ -1,0 +1,102 @@
+[
+  {
+    "name": "personal drive id unchanged",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: plain.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: empty.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: ünïcödé 😀 #%&+ name.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: qa-up-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: deep/l2/l3/l4/l5/deep.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: fav.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: tagged.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: big.bin",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: old-2020.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "content: versions.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "file ids unchanged",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "versions kept (2 old versions, content)",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "old mtime kept (2020-01-15)",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "favorites",
+    "ok": null,
+    "detail": "disabled on the from-version (capability files.favorites=false)"
+  },
+  {
+    "name": "tags kept",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "trash: file and folder present",
+    "ok": true,
+    "detail": "trash: trashed.txt, qa-up-probe.md, qa-up-probe-new.xlsx, qa-up-probe-new.docx"
+  },
+  {
+    "name": "activities kept",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "restore from trash after upgrade",
+    "ok": true,
+    "detail": "not in trash"
+  },
+  {
+    "name": "upload after upgrade",
+    "ok": true,
+    "detail": ""
+  }
+]

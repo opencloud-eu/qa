@@ -2,14 +2,12 @@
   "permissions": {
     "defaultMode": "acceptEdits",
     "additionalDirectories": [
-      "~/Work/web",
       "~/Work/opencloud"
     ],
     "allow": [
       "Edit(./**)",
       "Write(./**)",
       "Read(./**)",
-      "Read(~/Work/web/**)",
       "Read(~/Work/opencloud/**)",
       "Bash(node *)",
       "Bash(node:*)",
@@ -78,7 +76,7 @@
       "Bash(git diff:*)",
       "Bash(git log *)",
       "Bash(git log:*)",
-      "Bash(git add exploratory/*)",
+      "Bash(git add release-testing/*)",
       "Bash(git commit *)",
       "Bash(git commit:*)",
       "Bash(git checkout -b exploratory/*)",
@@ -91,8 +89,6 @@
       "Bash(gh release list *)",
       "Bash(gh release list:*)",
       "Bash(node releases/*)",
-      "Bash(cd exploratory && node:*)",
-      "Bash(cd exploratory && node *)",
       "Bash(pnpm run:*)",
       "Bash(gh pr diff *)",
       "Bash(gh pr diff:*)",
@@ -114,9 +110,8 @@
       "Bash(git push:*)",
       "Bash(rm -rf *)",
       "Bash(rm -rf:*)",
-      "Edit(~/Work/web/**)",
       "Edit(~/Work/opencloud/**)",
-      "Read(./exploratory/.env)",
+      "Read(./release-testing/.env)",
       "Bash(git reset --hard *)",
       "Bash(git reset --hard:*)"
     ]

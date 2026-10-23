@@ -22,17 +22,17 @@ const bare = cmd.replace(/'[^']*'/g, "''").replace(/"(?:\\.|[^"\\])*"/g, '""')
 
 const RULES = `Rules for this repo (see skill "Shell rules"):
 - ONE simple command per Bash call, run from the repo root. No cd, no ; && || | > < & $( ) backticks, no loops, no sleep.
-- Run Playwright scripts in the FOREGROUND: \`node exploratory/releases/<v>/scripts/x.mjs\` (set the Bash timeout up to 600000 ms).
+- Run Playwright scripts in the FOREGROUND: \`node release-testing/exploratory/releases/<v>/scripts/x.mjs\` (set the Bash timeout up to 600000 ms).
   Never run_in_background and never poll output files. If a script takes > 10 min, split it.
 - Let the script print what you need (console.log); don't grep its output. Use the Read / Grep / Glob tools for files.
-- Never read or source exploratory/.env — use node exploratory/lib/status.mjs.`;
+- Never read or source release-testing/.env — use node release-testing/lib/status.mjs.`;
 
 if (/\n/.test(bare)) block(`Blocked: multi-line command.\n${RULES}`);
 if (/(&&|\|\||;|\||>|<|\$\(|`)/.test(bare) || /&\s*$/.test(bare)) block(`Blocked: compound command, pipe or redirection.\n${RULES}`);
 const first = bare.split(/\s+/)[0];
 if (['cd', 'pushd', 'until', 'while', 'for', 'sleep', 'set', 'source', '.', 'export', 'eval', 'bash', 'sh', 'zsh'].includes(first))
   block(`Blocked: \`${first}\` is not used in this workflow.\n${RULES}`);
-if (/(^|\s)exploratory\/\.env(\s|$)/.test(bare)) block(`Blocked: don't read exploratory/.env.\n${RULES}`);
+if (/(^|\s|\/)(release-testing|exploratory)\/\.env(\s|$)/.test(bare)) block(`Blocked: don't read release-testing/.env.\n${RULES}`);
 
 const words = bare.split(/\s+/);
 const sub = words[1] ?? '';
@@ -46,6 +46,9 @@ const SAFE = {
   find: () => !/\s-(exec|execdir|delete|ok)\b/.test(bare),
   git: () => ['status', 'diff', 'log', 'show', 'add', 'commit', 'branch', 'switch', 'checkout', 'rev-parse', 'ls-files'].includes(sub)
             && !/\s(--force|-f|-D)\b/.test(bare),
+  // read-only docker; the upgrade stack itself runs through `node release-testing/upgrade/compose.mjs`, which never removes volumes
+  docker: () => ['ps', 'images', 'version', 'logs', 'inspect'].includes(sub)
+            || (sub === 'volume' && ['ls', 'inspect'].includes(words[2])),
   gh: () => (['release', 'issue', 'pr', 'search', 'repo'].includes(sub) && /^(view|list|diff|status|issues|prs)$/.test(words[2] ?? ''))
             || (sub === 'auth' && words[2] === 'status'),
 };

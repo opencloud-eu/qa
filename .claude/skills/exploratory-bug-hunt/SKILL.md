@@ -1,6 +1,6 @@
 ---
 name: exploratory-bug-hunt
-description: Agent-driven bug hunt across the whole OpenCloud web UI (not tied to a changelog). Parallel subagents explore one area each, guided by the web source code, deliberately break flows (cancel, back/forward, slow or failing requests, other roles), then a second round verifies every candidate. Produces exploratory/releases/hunt-<date>/report.md. Use for /exploratory-bug-hunt or "hunt for bugs in the web UI".
+description: Agent-driven bug hunt across the whole OpenCloud web UI (not tied to a changelog). Parallel subagents explore one area each, guided by the web source code, deliberately break flows (cancel, back/forward, slow or failing requests, other roles), then a second round verifies every candidate. Produces release-testing/exploratory/releases/hunt-<date>/report.md. Use for /exploratory-bug-hunt or "hunt for bugs in the web UI".
 ---
 
 # Exploratory bug hunt (OpenCloud web)
@@ -12,12 +12,12 @@ The release test (`/release-exploratory-test`) checks whether the **changes of a
 different goal: find **real, user-visible functional bugs anywhere in the web UI**, especially off the happy path.
 Every finding must be reproduced twice and backed by a screenshot; a cause in the source code is a strong plus.
 
-All paths are relative to `exploratory/` in the opencloud-eu/qa repo. Run folder: `releases/hunt-<YYYY-MM-DD>/` (= RUN).
-It lives under `releases/` on purpose, so `lib/oc.mjs` and the `.gitignore` rules work unchanged.
+All paths are relative to `release-testing/exploratory/` in the opencloud-eu/qa repo. Run folder: `releases/hunt-<YYYY-MM-DD>/` (= RUN).
+It lives under `releases/` on purpose, so `release-testing/lib/oc.mjs` and the `.gitignore` rules work unchanged.
 
 ## Shell rules
 Same as `/release-exploratory-test` (the hook `.claude/hooks/bash-guard.mjs` enforces them): one simple command per
-Bash call from the repo root, no chains/pipes/background/polling, never read `exploratory/.env`, run Playwright scripts
+Bash call from the repo root, no chains/pipes/background/polling, never read `release-testing/.env`, run Playwright scripts
 in the foreground (split scripts that need more than 10 minutes). Subagents follow the same rules.
 
 ## What counts as a bug
@@ -31,9 +31,9 @@ in the foreground (split scripts that need more than 10 minutes). Subagents foll
   after removing its extension), it is a finding, not an observation.
 
 ## 0. Preconditions (stop and ask if one fails)
-- Same as `/release-exploratory-test` step 0: `.env` present, test instance only, `node exploratory/lib/smoke.mjs` OK.
+- Same as `/release-exploratory-test` step 0: `.env` present, test instance only, `node release-testing/lib/smoke.mjs` OK.
 - Create RUN and write `releases/hunt-<date>` into `releases/.current`.
-- A read-only checkout of the web source at `~/Work/web` on the deployed version (`git -C ~/Work/web log -1` is not
+- A read-only checkout of the web source at `~/Work/opencloud/web` on the deployed version (`git -C ~/Work/opencloud/web log -1` is not
   allowed by the hook — ask the user to check out the matching tag if unsure). Without it the hunt still works, but
   code-guided exploration (step 2a) is skipped.
 
@@ -65,7 +65,7 @@ Give each subagent this brief (fill in the area):
 > (title, steps, expected, actual, screenshot, console errors, suspected cause with file:line). Work until you have
 > covered the area or used <minutes> minutes, then report the candidates.
 
-### 2a. Code first (if `~/Work/web` exists)
+### 2a. Code first (if `~/Work/opencloud/web` exists)
 Spend the first minutes reading the area's source and note suspicious spots to target, for example:
 - async actions without error handling, promises that are not awaited, missing `try/finally` around loading flags;
 - modals/dialogs whose cancel/close path never resolves, `onCancel` not wired;
@@ -109,7 +109,7 @@ doesn't work, no workaround) · Minor (workaround exists) · Question (unclear i
 - `RUN/report.md` from `report-template.md` in this folder; one issue draft per finding in `RUN/issues/<ID>.md`
   (title line + body ready for `gh issue create --body-file`, with steps, expected, actual, cause and a fix idea).
 - Copy the evidence screenshots to `RUN/screens/` (typically ≤ 40).
-- Commit `exploratory/releases/hunt-<date>` on branch `exploratory/hunt-<date>`. **Do not push, do not create issues.**
+- Commit `release-testing/exploratory/releases/hunt-<date>` on branch `exploratory/hunt-<date>`. **Do not push, do not create issues.**
 - Chat summary: counts by severity, top findings, areas covered / not covered, findings that need a human decision.
 
 ## Safety rules

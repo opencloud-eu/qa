@@ -1,0 +1,7 @@
+{
+  "note": "First 'verify files --phase after' run (copy of files-after.json before the re-runs). 19 ok, 1 failed. All checks identical to files-before.json (all pass) plus the two after-only checks below.",
+  "after_only": [
+    { "name": "restore from trash after upgrade", "ok": true, "detail": "" },
+    { "name": "upload after upgrade", "ok": false, "detail": "" }
+  ]
+}
