@@ -1,0 +1,834 @@
+[
+  {
+    "user": "lynn",
+    "id": "U1",
+    "term": "axolotldocx",
+    "must": [
+      "qa-up-report.docx"
+    ],
+    "preview": "Files | Show 1 result | qa-up-report | .docx | qa-up-search-extra | The | axolotldocx keyword is inside a Word document",
+    "previewShot": "screens-raw/001-search-after-ui-U1-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=axolotldocx&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc",
+    "names": [
+      "qa-up-report.docx"
+    ],
+    "empty": false,
+    "shot": "screens-raw/002-search-after-ui-U1-lynn-results.png",
+    "reports": [
+      "207 (name:\"*axolotldocx*\" OR content:\"axolotldocx\" OR tag:\"*axolotldocx*\")",
+      "207 (name:\"*axolotldocx*\" OR content:\"axolotldocx\" OR tag:\"*axolotldocx*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U2",
+    "term": "qa-up",
+    "filters": [
+      [
+        "item-filter-mediaType",
+        "PDF"
+      ]
+    ],
+    "must": [
+      "qa-up-paper.pdf"
+    ],
+    "mustNot": [
+      "qa-up-report.docx",
+      "qa-up-letter.odt",
+      "qa-up-tags.txt"
+    ],
+    "preview": "Files | Show 56 results | qa-up-space-expiry | Spaces | qa-up-space-changed | Spaces | qa-up-space-roles | Spaces | qa-up-space-many | Spaces | qa-up-viewonly | .docx | Shared with me | Qa-up-viewonly-marker shared view-only on 8.1.0 | qa-up-collab | .md | Shared with me | # QA collab notes Created by alan on 8.1.0 with yjs. | qa-up-yjs-alan-marker @Lynn Conway - bullet one - bullet two qa-up-yjs-",
+    "previewShot": "screens-raw/003-search-after-ui-U2-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=qa-up&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc&q_mediaType=pdf",
+    "names": [
+      "qa-up-paper.pdf"
+    ],
+    "empty": false,
+    "shot": "screens-raw/004-search-after-ui-U2-lynn-results.png",
+    "reports": [
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\") AND mediatype:(\"pdf\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U3",
+    "term": "qa-up",
+    "filters": [
+      [
+        "item-filter-mediaType",
+        "Document"
+      ]
+    ],
+    "must": [
+      "qa-up-report.docx",
+      "qa-up-letter.odt"
+    ],
+    "mustNot": [
+      "qa-up-paper.pdf"
+    ],
+    "preview": "Files | Show 56 results | qa-up-space-changed | Spaces | qa-up-space-expiry | Spaces | qa-up-space-roles | Spaces | qa-up-space-many | Spaces | qa-up-viewonly | .docx | Shared with me | Qa-up-viewonly-marker shared view-only on 8.1.0 | qa-up-collab | .md | Shared with me | # QA collab notes Created by alan on 8.1.0 with yjs. | qa-up-yjs-alan-marker @Lynn Conway - bullet one - bullet two qa-up-yjs-",
+    "previewShot": "screens-raw/005-search-after-ui-U3-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=qa-up&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc&q_mediaType=document",
+    "names": [
+      "qa-up-alan-after.txt",
+      "qa-up-alan-before.txt",
+      "qa-up-collab.md",
+      "qa-up-fav-doc.txt",
+      "qa-up-fav-not.txt",
+      "qa-up-fav-removed.txt",
+      "qa-up-hidden-note.txt",
+      "qa-up-letter.odt",
+      "qa-up-link-after.txt",
+      "qa-up-link-before.txt",
+      "qa-up-lynn-after.txt",
+      "qa-up-lynn-before.txt",
+      "qa-up-mary-after.txt",
+      "qa-up-mary-before.txt",
+      "qa-up-mtime-2018.txt",
+      "qa-up-mtime-2022.txt",
+      "qa-up-rename-after.txt",
+      "qa-up-renamed.txt",
+      "qa-up-report.docx",
+      "qa-up-restore-now.txt",
+      "qa-up-same-path.txt",
+      "qa-up-scope-inside.txt",
+      "qa-up-scope-outside.txt",
+      "qa-up-shared-note.txt",
+      "qa-up-space-file.txt",
+      "qa-up-tags.txt",
+      "qa-up-ümlaut-Größe.txt",
+      "qa-up-viewonly.docx",
+      "qa-up-中文报告.txt",
+      "tagged-search.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/006-search-after-ui-U3-lynn-results.png",
+    "reports": [
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\") AND mediatype:(\"document\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U4",
+    "term": "qa-up",
+    "filters": [
+      [
+        "item-filter-tags",
+        "qa-up-标签"
+      ]
+    ],
+    "must": [
+      "qa-up-tags.txt"
+    ],
+    "mustNot": [
+      "qa-up-report.docx"
+    ],
+    "preview": "Files | Show 56 results | qa-up-space-expiry | Spaces | qa-up-space-changed | Spaces | qa-up-space-many | Spaces | qa-up-space-roles | Spaces | qa-up-viewonly | .docx | Shared with me | Qa-up-viewonly-marker shared view-only on 8.1.0 | qa-up-collab | .md | Shared with me | # QA collab notes Created by alan on 8.1.0 with yjs. | qa-up-yjs-alan-marker @Lynn Conway - bullet one - bullet two qa-up-yjs-",
+    "previewShot": "screens-raw/007-search-after-ui-U4-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=qa-up&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc&q_tags=qa-up-%E6%A0%87%E7%AD%BE",
+    "names": [
+      "qa-up-tags.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/008-search-after-ui-U4-lynn-results.png",
+    "reports": [
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\") AND tag:(\"qa-up-标签\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U5",
+    "term": "qa-up",
+    "filters": [
+      [
+        "item-filter-tags",
+        "qa up tag with spaces"
+      ]
+    ],
+    "must": [
+      "qa-up-tags.txt"
+    ],
+    "mustNot": [
+      "qa-up-report.docx"
+    ],
+    "preview": "Files | Show 56 results | qa-up-space-changed | Spaces | qa-up-space-expiry | Spaces | qa-up-space-roles | Spaces | qa-up-space-many | Spaces | qa-up-viewonly | .docx | Shared with me | Qa-up-viewonly-marker shared view-only on 8.1.0 | qa-up-collab | .md | Shared with me | # QA collab notes Created by alan on 8.1.0 with yjs. | qa-up-yjs-alan-marker @Lynn Conway - bullet one - bullet two qa-up-yjs-",
+    "previewShot": "screens-raw/009-search-after-ui-U5-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=qa-up&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc&q_tags=qa%20up%20tag%20with%20spaces",
+    "names": [
+      "qa-up-tags.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/010-search-after-ui-U5-lynn-results.png",
+    "reports": [
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\") AND tag:(\"qa up tag with spaces\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U6",
+    "term": "qa-up-mtime",
+    "filters": [
+      [
+        "item-filter-lastModified",
+        "last 30 days"
+      ]
+    ],
+    "must": [],
+    "mustNot": [
+      "qa-up-mtime-2018.txt",
+      "qa-up-mtime-2022.txt"
+    ],
+    "preview": "Files | Show 2 results | qa-up-mtime-2022 | .txt | qa-up-search-extra | qa-up-mtime-2018 | .txt | qa-up-search-extra",
+    "previewShot": "screens-raw/011-search-after-ui-U6-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=qa-up-mtime&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc&q_lastModified=last%2030%20days",
+    "names": [],
+    "empty": true,
+    "shot": "screens-raw/012-search-after-ui-U6-lynn-results.png",
+    "reports": [
+      "207 (name:\"*qa-up-mtime*\" OR content:\"qa-up-mtime\" OR tag:\"*qa-up-mtime*\")",
+      "207 (name:\"*qa-up-mtime*\" OR content:\"qa-up-mtime\" OR tag:\"*qa-up-mtime*\")",
+      "207 (name:\"*qa-up-mtime*\" OR content:\"qa-up-mtime\" OR tag:\"*qa-up-mtime*\") AND mtime:last 30 days"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U7",
+    "term": "qa-up-rename",
+    "filters": [
+      [
+        "item-filter-lastModified",
+        "last 30 days"
+      ]
+    ],
+    "must": [
+      "qa-up-rename-after.txt"
+    ],
+    "mustNot": [
+      "qa-up-rename-before.txt"
+    ],
+    "preview": "Files | Show 2 results | qa-up-renamed | .txt | Shared with me | qa-up-rename-after | .txt | qa-up-search-extra",
+    "previewShot": "screens-raw/013-search-after-ui-U7-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=qa-up-rename&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc&q_lastModified=last%2030%20days",
+    "names": [
+      "qa-up-rename-after.txt",
+      "qa-up-renamed.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/014-search-after-ui-U7-lynn-results.png",
+    "reports": [
+      "207 (name:\"*qa-up-rename*\" OR content:\"qa-up-rename\" OR tag:\"*qa-up-rename*\")",
+      "207 (name:\"*qa-up-rename*\" OR content:\"qa-up-rename\" OR tag:\"*qa-up-rename*\")",
+      "207 (name:\"*qa-up-rename*\" OR content:\"qa-up-rename\" OR tag:\"*qa-up-rename*\") AND mtime:last 30 days"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U8",
+    "term": "axolotldocx",
+    "titleOnly": true,
+    "must": [],
+    "mustNot": [
+      "qa-up-report.docx"
+    ],
+    "preview": "Files | Show 1 result | qa-up-report | .docx | qa-up-search-extra | The | axolotldocx keyword is inside a Word document",
+    "previewShot": "screens-raw/015-search-after-ui-U8-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=axolotldocx&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc&q_titleOnly=true",
+    "names": [],
+    "empty": true,
+    "shot": "screens-raw/016-search-after-ui-U8-lynn-results.png",
+    "reports": [
+      "207 (name:\"*axolotldocx*\" OR content:\"axolotldocx\" OR tag:\"*axolotldocx*\")",
+      "207 (name:\"*axolotldocx*\" OR content:\"axolotldocx\" OR tag:\"*axolotldocx*\")",
+      "207 name:\"*axolotldocx*\""
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U9",
+    "term": "qa-up-report",
+    "titleOnly": true,
+    "must": [
+      "qa-up-report.docx"
+    ],
+    "preview": "Files | Show 1 result | qa-up-report | .docx | qa-up-search-extra",
+    "previewShot": "screens-raw/017-search-after-ui-U9-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=qa-up-report&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc&q_titleOnly=true",
+    "names": [
+      "qa-up-report.docx"
+    ],
+    "empty": false,
+    "shot": "screens-raw/018-search-after-ui-U9-lynn-results.png",
+    "reports": [
+      "207 (name:\"*qa-up-report*\" OR content:\"qa-up-report\" OR tag:\"*qa-up-report*\")",
+      "207 (name:\"*qa-up-report*\" OR content:\"qa-up-report\" OR tag:\"*qa-up-report*\")",
+      "207 name:\"*qa-up-report*\""
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U10",
+    "term": "marmothidden",
+    "must": [
+      "qa-up-hidden-note.txt"
+    ],
+    "preview": "Files | Show 1 result | qa-up-hidden-note | .txt | .qa-up-hidden | The | marmothidden keyword in a hidden folder",
+    "previewShot": "screens-raw/019-search-after-ui-U10-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=marmothidden&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc",
+    "names": [
+      "qa-up-hidden-note.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/020-search-after-ui-U10-lynn-results.png",
+    "reports": [
+      "207 (name:\"*marmothidden*\" OR content:\"marmothidden\" OR tag:\"*marmothidden*\")",
+      "207 (name:\"*marmothidden*\" OR content:\"marmothidden\" OR tag:\"*marmothidden*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U11",
+    "term": "lemurtrashonly",
+    "must": [],
+    "mustNot": [
+      "qa-up-trash-only.txt"
+    ],
+    "preview": "No results",
+    "previewShot": "screens-raw/021-search-after-ui-U11-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=lemurtrashonly&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc",
+    "names": [],
+    "empty": true,
+    "shot": "screens-raw/022-search-after-ui-U11-lynn-results.png",
+    "reports": [
+      "207 (name:\"*lemurtrashonly*\" OR content:\"lemurtrashonly\" OR tag:\"*lemurtrashonly*\")",
+      "207 (name:\"*lemurtrashonly*\" OR content:\"lemurtrashonly\" OR tag:\"*lemurtrashonly*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U12",
+    "term": "readme",
+    "must": [],
+    "mustNot": [
+      "readme.md"
+    ],
+    "preview": "No results",
+    "previewShot": "screens-raw/023-search-after-ui-U12-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=readme&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc",
+    "names": [],
+    "empty": true,
+    "shot": "screens-raw/024-search-after-ui-U12-lynn-results.png",
+    "reports": [
+      "207 (name:\"*readme*\" OR content:\"readme\" OR tag:\"*readme*\")",
+      "207 (name:\"*readme*\" OR content:\"readme\" OR tag:\"*readme*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U13",
+    "term": "Lynn Conway",
+    "must": [],
+    "mustNot": [
+      "Lynn Conway"
+    ],
+    "preview": "Files | Show 1 result | qa-up-collab | .md | Shared with me | # QA collab notes qa-up-dev-alan-mvpnhpph Created by alan on 8.1.0 with yjs. qa-up-yjs-alan-marker @ | Lynn Conway - bullet one qa-up-dev-lynn-mvpnhpph - bullet two qa-up-yjs-lynn-marker &nbsp;",
+    "previewShot": "screens-raw/025-search-after-ui-U13-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=Lynn%20Conway&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc",
+    "names": [
+      "qa-up-collab.md"
+    ],
+    "empty": false,
+    "shot": "screens-raw/026-search-after-ui-U13-lynn-results.png",
+    "reports": [
+      "207 (name:\"*Lynn Conway*\" OR content:\"Lynn Conway\" OR tag:\"*Lynn Conway*\")",
+      "207 (name:\"*Lynn Conway*\" OR content:\"Lynn Conway\" OR tag:\"*Lynn Conway*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U14",
+    "term": "熊猫",
+    "must": [
+      "qa-up-中文报告.txt"
+    ],
+    "preview": "Files | Show 1 result | qa-up-中文报告 | .txt | qa-up-search-extra | 这是一个关于 | 熊猫升级测试的文件。keyword: 熊猫升级",
+    "previewShot": "screens-raw/027-search-after-ui-U14-lynn-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&term=%E7%86%8A%E7%8C%AB&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24d1b0e209-05f2-42fc-a4ec-62e5a82bd510%21d1b0e209-05f2-42fc-a4ec-62e5a82bd510&useScope=false&provider=files.sdk&sort-by=name&sort-dir=asc",
+    "names": [
+      "qa-up-中文报告.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/028-search-after-ui-U14-lynn-results.png",
+    "reports": [
+      "207 (name:\"*熊猫*\" OR content:\"熊猫\" OR tag:\"*熊猫*\")",
+      "207 (name:\"*熊猫*\" OR content:\"熊猫\" OR tag:\"*熊猫*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "lynn",
+    "id": "U15",
+    "favorites": true,
+    "must": [
+      "qa-up-fav-doc.txt",
+      "qa-up-fav-folder",
+      "fav-search.txt"
+    ],
+    "mustNot": [
+      "qa-up-fav-not.txt",
+      "qa-up-fav-removed.txt"
+    ],
+    "preview": null,
+    "names": [
+      "qa-up-fav-folder",
+      "fav-search.txt",
+      "qa-up-fav-doc.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/029-search-after-ui-U15-lynn-results.png",
+    "reports": [
+      "207 is:favorite"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "mary",
+    "id": "U16",
+    "term": "geckoshared",
+    "must": [
+      "qa-up-shared-note.txt"
+    ],
+    "preview": "Files | Show 1 result | qa-up-shared-note | .txt | qa-up-search-extra-shared | The | geckoshared keyword in a folder shared with mary",
+    "previewShot": "screens-raw/030-search-after-ui-U16-mary-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%2446201fc0-89ff-40fa-a37f-b4ebbb8bfb19%2146201fc0-89ff-40fa-a37f-b4ebbb8bfb19&term=geckoshared&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%2446201fc0-89ff-40fa-a37f-b4ebbb8bfb19%2146201fc0-89ff-40fa-a37f-b4ebbb8bfb19&useScope=false&provider=files.sdk",
+    "names": [
+      "qa-up-shared-note.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/031-search-after-ui-U16-mary-results.png",
+    "reports": [
+      "207 (name:\"*geckoshared*\" OR content:\"geckoshared\" OR tag:\"*geckoshared*\")",
+      "207 (name:\"*geckoshared*\" OR content:\"geckoshared\" OR tag:\"*geckoshared*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "mary",
+    "id": "U17",
+    "term": "axolotldocx",
+    "must": [],
+    "mustNot": [
+      "qa-up-report.docx"
+    ],
+    "preview": "No results",
+    "previewShot": "screens-raw/032-search-after-ui-U17-mary-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%2446201fc0-89ff-40fa-a37f-b4ebbb8bfb19%2146201fc0-89ff-40fa-a37f-b4ebbb8bfb19&term=axolotldocx&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%2446201fc0-89ff-40fa-a37f-b4ebbb8bfb19%2146201fc0-89ff-40fa-a37f-b4ebbb8bfb19&useScope=false&provider=files.sdk",
+    "names": [],
+    "empty": true,
+    "shot": "screens-raw/033-search-after-ui-U17-mary-results.png",
+    "reports": [
+      "207 (name:\"*axolotldocx*\" OR content:\"axolotldocx\" OR tag:\"*axolotldocx*\")",
+      "207 (name:\"*axolotldocx*\" OR content:\"axolotldocx\" OR tag:\"*axolotldocx*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "mary",
+    "id": "U18",
+    "favorites": true,
+    "must": [
+      "qa-up-shared-note.txt"
+    ],
+    "preview": null,
+    "names": [
+      "qa-up-shared-note.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/034-search-after-ui-U18-mary-results.png",
+    "reports": [
+      "207 is:favorite"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  },
+  {
+    "user": "margaret",
+    "id": "U19",
+    "term": "kinkajouspace",
+    "must": [
+      "qa-up-space-doc.txt"
+    ],
+    "preview": "Files | Show 1 result | qa-up-space-doc | .txt | Docs | The | kinkajouspace keyword lives in a project space",
+    "previewShot": "screens-raw/035-search-after-ui-U19-margaret-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&term=kinkajouspace&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&useScope=false&provider=files.sdk",
+    "names": [
+      "qa-up-space-doc.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/036-search-after-ui-U19-margaret-results.png",
+    "reports": [
+      "207 (name:\"*kinkajouspace*\" OR content:\"kinkajouspace\" OR tag:\"*kinkajouspace*\")",
+      "207 (name:\"*kinkajouspace*\" OR content:\"kinkajouspace\" OR tag:\"*kinkajouspace*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "margaret",
+    "id": "U20",
+    "term": "tapirspacedocx",
+    "filters": [
+      [
+        "item-filter-mediaType",
+        "Document"
+      ]
+    ],
+    "must": [
+      "qa-up-space-report.docx"
+    ],
+    "preview": "Files | Show 1 result | qa-up-space-report | .docx | Docs | The | tapirspacedocx keyword in a project space Word document",
+    "previewShot": "screens-raw/037-search-after-ui-U20-margaret-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&term=tapirspacedocx&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&useScope=false&provider=files.sdk&q_mediaType=document",
+    "names": [
+      "qa-up-space-report.docx"
+    ],
+    "empty": false,
+    "shot": "screens-raw/038-search-after-ui-U20-margaret-results.png",
+    "reports": [
+      "207 (name:\"*tapirspacedocx*\" OR content:\"tapirspacedocx\" OR tag:\"*tapirspacedocx*\")",
+      "207 (name:\"*tapirspacedocx*\" OR content:\"tapirspacedocx\" OR tag:\"*tapirspacedocx*\")",
+      "207 (name:\"*tapirspacedocx*\" OR content:\"tapirspacedocx\" OR tag:\"*tapirspacedocx*\") AND mediatype:(\"document\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "margaret",
+    "id": "U21",
+    "term": "qa-up",
+    "filters": [
+      [
+        "item-filter-tags",
+        "qa-up-spacetag"
+      ]
+    ],
+    "must": [
+      "qa-up-space-doc.txt"
+    ],
+    "mustNot": [
+      "qa-up-space-report.docx"
+    ],
+    "preview": "Files | Show 26 results | qa-up-space-quota-5g | Spaces | qa-up-space-after-default-quota | Spaces | qa-up-search-toggle | Spaces | qa-up-space-expiry | Spaces | qa-up-space-quota-unlimited | Spaces | qa-up-space-changed | Spaces | qa-up-space-quota-1g | Spaces | qa-up-space-doc | .txt | Docs | qa-up-spacetag",
+    "previewShot": "screens-raw/039-search-after-ui-U21-margaret-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&term=qa-up&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&useScope=false&provider=files.sdk&q_tags=qa-up-spacetag",
+    "names": [
+      "qa-up-space-doc.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/040-search-after-ui-U21-margaret-results.png",
+    "reports": [
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\")",
+      "207 (name:\"*qa-up*\" OR content:\"qa-up\" OR tag:\"*qa-up*\") AND tag:(\"qa-up-spacetag\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "margaret",
+    "id": "U22",
+    "term": "quetzalreadme",
+    "must": [],
+    "mustNot": [
+      "readme.md"
+    ],
+    "preview": "No results",
+    "previewShot": "screens-raw/041-search-after-ui-U22-margaret-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&term=quetzalreadme&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&useScope=false&provider=files.sdk",
+    "names": [],
+    "empty": true,
+    "shot": "screens-raw/042-search-after-ui-U22-margaret-results.png",
+    "reports": [
+      "207 (name:\"*quetzalreadme*\" OR content:\"quetzalreadme\" OR tag:\"*quetzalreadme*\")",
+      "207 (name:\"*quetzalreadme*\" OR content:\"quetzalreadme\" OR tag:\"*quetzalreadme*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "margaret",
+    "id": "U23",
+    "term": "readme",
+    "must": [],
+    "mustNot": [
+      "readme.md"
+    ],
+    "preview": "No results",
+    "previewShot": "screens-raw/043-search-after-ui-U23-margaret-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&term=readme&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&useScope=false&provider=files.sdk",
+    "names": [],
+    "empty": true,
+    "shot": "screens-raw/044-search-after-ui-U23-margaret-results.png",
+    "reports": [
+      "207 (name:\"*readme*\" OR content:\"readme\" OR tag:\"*readme*\")",
+      "207 (name:\"*readme*\" OR content:\"readme\" OR tag:\"*readme*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "margaret",
+    "id": "U24",
+    "term": "narwhaldisabled",
+    "must": [],
+    "mustNot": [
+      "qa-up-disabled-doc.txt"
+    ],
+    "preview": "No results",
+    "previewShot": "screens-raw/045-search-after-ui-U24-margaret-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&term=narwhaldisabled&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&useScope=false&provider=files.sdk",
+    "names": [],
+    "empty": true,
+    "shot": "screens-raw/046-search-after-ui-U24-margaret-results.png",
+    "reports": [
+      "207 (name:\"*narwhaldisabled*\" OR content:\"narwhaldisabled\" OR tag:\"*narwhaldisabled*\")",
+      "207 (name:\"*narwhaldisabled*\" OR content:\"narwhaldisabled\" OR tag:\"*narwhaldisabled*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "margaret",
+    "id": "U25",
+    "term": "qa-up-search-space",
+    "must": [
+      "qa-up-search-space"
+    ],
+    "preview": "Files | Show 1 result | qa-up-search-space | Spaces",
+    "previewShot": "screens-raw/047-search-after-ui-U25-margaret-preview.png",
+    "url": "/files/search/list?items-per-page=100&view-mode=resource-tiles&tiles-size=2&fileId=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&term=qa-up-search-space&scope=0dfe246d-cff3-426c-a6ed-faebf75f790c%24bae3abe9-0e34-4755-8d79-9d857da974a5%21bae3abe9-0e34-4755-8d79-9d857da974a5&useScope=false&provider=files.sdk",
+    "names": [
+      "qa-up-search-space"
+    ],
+    "empty": false,
+    "shot": "screens-raw/048-search-after-ui-U25-margaret-results.png",
+    "reports": [
+      "207 (name:\"*qa-up-search-space*\" OR content:\"qa-up-search-space\" OR tag:\"*qa-up-search-space*\")",
+      "207 (name:\"*qa-up-search-space*\" OR content:\"qa-up-search-space\" OR tag:\"*qa-up-search-space*\")"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "user": "margaret",
+    "id": "U26",
+    "favorites": true,
+    "must": [
+      "qa-up-space-fav.txt"
+    ],
+    "preview": null,
+    "names": [
+      "qa-up-space-fav.txt"
+    ],
+    "empty": false,
+    "shot": "screens-raw/049-search-after-ui-U26-margaret-results.png",
+    "reports": [
+      "207 is:favorite"
+    ],
+    "missing": [],
+    "unexpected": [],
+    "httpErrors": [],
+    "ok": true,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "TypeError: Cannot read properties of undefined (reading 'current_version')\n    at K.immediate (https://cloud.opencloud.test/js/chunks/src-BkZPmeJv.mjs:5:32930)\n"
+    ]
+  }
+]
