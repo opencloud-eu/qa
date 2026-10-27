@@ -16,9 +16,15 @@ export async function seed(t) {
   for (const [n, c] of Object.entries(FILES)) await lynn.put(d, `${DIR}/${n}`, c);
   for (const [n, m] of Object.entries(OLD)) await lynn.put(d, `${DIR}/${n}`, `old file ${n}`, { 'X-OC-Mtime': String(m) });
   await lynn.put(d, `${DIR}/tagged-search.txt`, 'tagged');
-  await lynn.setTags(await lynn.fileId(d, `${DIR}/tagged-search.txt`), ['qa-up-searchtag']);
+  // re-run: the tag is already set → HTTP 400 "no new tags"
+  await lynn.setTags(await lynn.fileId(d, `${DIR}/tagged-search.txt`), ['qa-up-searchtag'])
+    .catch(e => { if (!/no new tags/.test(e.message)) throw e; });
   await lynn.put(d, `${DIR}/fav-search.txt`, 'favorite');
-  const favorite = await lynn.favorite(d, `${DIR}/fav-search.txt`).then(() => true, () => false);
+  // 8.x: favorites are labels set through Graph (`follow`), WebDAV PROPPATCH oc:favorite answers 403;
+  // older versions only have PROPPATCH (and may have favorites disabled)
+  const favId = await lynn.fileId(d, `${DIR}/fav-search.txt`);
+  const favorite = await lynn.graph('POST', `/v1.0/me/drive/items/${encodeURIComponent(favId)}/follow`, undefined, [200, 201])
+    .then(() => true, () => lynn.favorite(d, `${DIR}/fav-search.txt`).then(() => true, () => false));
   t.state = { driveId: d, favorite };
   await lynn.dispose();
 }

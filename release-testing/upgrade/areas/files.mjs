@@ -109,7 +109,14 @@ export async function verify(t) {
     });
     await t.check('upload after upgrade', async () => {
       await alan.put(drive.id, `${DIR}/after-upgrade.txt`, 'new');
-      return (await alan.get(drive.id, `${DIR}/after-upgrade.txt`)).status === 200;
+      // 425 Too Early while postprocessing of the upload still runs (async, can take a moment)
+      let status;
+      for (let i = 0; i < 20; i++) {
+        status = (await alan.get(drive.id, `${DIR}/after-upgrade.txt`)).status;
+        if (status !== 425) break;
+        await new Promise(r => setTimeout(r, 500));
+      }
+      return status === 200 || `HTTP ${status}`;
     });
   }
   await alan.dispose();

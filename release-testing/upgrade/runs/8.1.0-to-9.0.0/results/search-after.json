@@ -1,0 +1,37 @@
+[
+  {
+    "name": "search by name",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "search by content: txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "search by content: md",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "search by content: html",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "search by tag",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "favorites filter",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "search finds old files",
+    "ok": true,
+    "detail": ""
+  }
+]

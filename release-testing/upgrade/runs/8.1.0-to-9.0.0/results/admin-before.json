@@ -1,0 +1,52 @@
+[
+  {
+    "name": "no user lost",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "user ids unchanged",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "edited display name and mail",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "disabled user stays disabled",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "Space Admin role kept",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "group members kept",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "user quota 1 GB",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "announcement banner kept",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "user logs in with its password",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "disabled user cannot log in",
+    "ok": true,
+    "detail": ""
+  }
+]

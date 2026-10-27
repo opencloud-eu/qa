@@ -8,13 +8,17 @@ description: Agent-driven upgrade and compatibility test of OpenCloud with openc
 Goal: find data or settings that get **lost or broken by an upgrade**. Every claim in the report is backed by a
 check result or a screenshot.
 
-Paths are relative to the repo root. Run folder: `release-testing/upgrade/runs/<from-tag>-to-<to-tag>/` (= RUN).
+Paths are relative to the repo root. Run folder: `release-testing/upgrade/runs/<from>-to-<to>/` (= RUN), named by
+version, not by tag: for `dev` or `latest` use the version the build reports (e.g. `8.1.0-to-9.0.0` for a `9.0.0+dev` image —
+check `status.php` after the upgrade and rename the folder and branch if it differs from your guess).
 Credentials and `OC_COMPOSE_DIR` come from `release-testing/.env` (shared with the exploratory tests).
 
 ## Shell rules
 - One simple command per Bash call, from the repo root. No `cd`, `;`, `&&`, `|`, `>`, loops or `sleep`.
 - Never read `release-testing/.env`. Docker only through `node release-testing/upgrade/compose.mjs …` (and read-only `docker ps`,
   `docker volume ls`). Never remove volumes; a fresh start is the user's command: `docker compose -p qa-upgrade down -v`.
+- `opencloud.yaml` holds secrets: never print it whole or grep it loosely. Look for one key at a time
+  (e.g. `grep -n "^auth_guest:" …`) and never copy values into chat, results or the report.
 - Scripts in the foreground, Bash timeout up to 600000 ms.
 - Playwright scripts in `RUN/scripts/` start with `import '../../../env.mjs'` (before anything else), then import
   `open`, `login`, `shot` from `../../../../lib/oc.mjs` and `session` from `../../../../lib/api.mjs`. Screenshots then
@@ -34,7 +38,26 @@ Show the plan (from/to, refs, both COMPOSE_FILEs) and continue.
 Read the opencloud release notes of every release after `from` up to `to` (`gh release list -R opencloud-eu/opencloud`,
 `gh release view <tag>`; for `dev` also the unreleased `CHANGELOG.md` on main). Collect breaking changes, upgrade notes
 and required commands (search re-index, `opencloud shares migrate …`, config changes, new compose files).
-Ask the user **once** to confirm the list of migration steps. This is the only question after step 1.
+
+**Breaking changes need the most care — they are where upgrades fail.** Commit titles are not enough:
+- List the merged PRs in the range, not only commits: `gh pr list -R opencloud-eu/opencloud --state merged --search "merged:>=<from-release-date>" --limit 300 --json number,title,labels`
+  (for `dev` up to now). Breaking = title with `!` (`feat(x)!:`), a "Breaking change" label, or "breaking" in the release
+  notes or the PR body. Also check the reva and web releases in the range the same way.
+- Open **every** breaking PR (`gh pr view <n> --json title,body,files`) and read its "Migration" / "Breaking change" part.
+  Then check that part against the code on main: later PRs often change it (a secret that became derived, an env var
+  renamed, a new required setting). Note what is still required and what is outdated.
+- Turn **every** behaviour change the breaking PR describes into a check (body, "Update" and "Follow-ups" sections):
+  not only the owner's own files, but the same thing as share recipient, in project spaces, on public links (with and
+  without password), via WebDAV properties and in the UI. Hand these checks to the verify agents of the areas they
+  touch. What is not checked goes into "Not tested" in the report, item by item.
+- Also read `MIGRATION.md`/upgrade sections in the service READMEs touched by the range (e.g. `services/webdav/MIGRATION.md`).
+- New services or features that are **off by default** (e.g. guest links) are part of the upgrade test: plan to switch
+  them on after the upgrade (step 5) — "the upgrade starts" is not enough, enabling the feature on the old config must
+  work too.
+
+Show a table: change · PR · what an existing install must do · how the test checks it. Every breaking PR appears in it,
+also when the answer is "nothing to do" (say why). Ask the user **once** to confirm the list of migration steps. This
+is the only question after step 1.
 
 ## 3. Start the from-version
 Write `<from>-to-<to>` into `release-testing/upgrade/runs/.current`, then:
@@ -71,8 +94,31 @@ After all seed agents are done:
 ```
 node release-testing/upgrade/compose.mjs up to --ref <ref> --image <image> --tag <tag> --files <files>
 ```
+Then, always, migrate the config with the **new** image — this is the standard upgrade step for every version:
+```
+node release-testing/upgrade/compose.mjs run opencloud env -u IDM_ADMIN_PASSWORD opencloud init --diff
+node release-testing/upgrade/compose.mjs run opencloud patch -i /etc/opencloud/opencloud.config.patch /etc/opencloud/opencloud.yaml
+node release-testing/upgrade/compose.mjs up to … (same arguments, recreates opencloud on the patched config)
+```
+(`run` starts a one-off container on the stack's volumes, also while opencloud itself does not start.
+`IDM_ADMIN_PASSWORD` is unset because `--diff` refuses it.) The diff shows secrets — in the report name only the keys
+that were added or removed. Note the start of the new version **before** the patch as well: it shows what happens to an
+admin who skips the step.
+
 Then run each confirmed migration, e.g. `node release-testing/upgrade/compose.mjs exec opencloud opencloud search index --all-spaces --force-rescan --insecure`.
 Keep the output. Check `node release-testing/upgrade/compose.mjs logs opencloud --tail 300` for errors and panics after the start.
+
+Then switch on the new features that are off by default and need the old config to work (from step 2), with
+`--env KEY=VAL,KEY=VAL` on `up to` (written to `qa-env.yml` for the opencloud service). Mail goes to the inbucket the user
+runs on the host (SMTP `host.docker.internal:2500`, web/API `http://localhost:9000`), e.g.:
+```
+--env "OC_ADD_RUN_SERVICES=notifications,NOTIFICATIONS_SMTP_HOST=host.docker.internal,NOTIFICATIONS_SMTP_PORT=2500,NOTIFICATIONS_SMTP_INSECURE=true,NOTIFICATIONS_SMTP_SENDER=OpenCloud <noreply@example.com>,OC_ENABLE_GUEST_LINKS=true"
+```
+If opencloud does not come up (`status.php not ready`), read the log: a service that fails on the old config is a
+finding — reproduce it, then fix the config the documented way and continue.
+After every `up` with `--env` check that nothing of the stack got lost: smoke, and `GET /app/list` still lists the
+office apps (`OC_ADD_RUN_SERVICES` is mapped to `START_ADDITIONAL_SERVICES` so compose keeps `collaboration`).
+Don't recreate the stack while verify agents are running.
 
 ## 6. Verify — parallel agents
 Same areas, one subagent each:
@@ -87,7 +133,8 @@ Same areas, one subagent each:
 ## 7. Report
 `RUN/report.md`, screenshots used as evidence copied to `RUN/screens/`:
 - Header: from/to image:tag, compose refs and COMPOSE_FILEs, date, duration, agents.
-- Migrations: commands and their result.
+- Migrations: the breaking-change table from step 2 (each breaking PR, what it says, what is really needed on main,
+  how it was checked, result), then the commands and their result, including the config diff (keys only).
 - Summary per area: checks before/after, failures.
 - Findings (upgrade bugs only) with severity, steps, evidence, likely component (web / opencloud / reva). Draft issues in `RUN/issues/<ID>.md`.
 - **Checklist for the release issue** in this format, ticked from the results:

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "login with the changed password",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "language de",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "setting disable-email-notifications",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "setting auto-accept-shares",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "setting email-sending-interval-options",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "avatar kept",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "app token listed",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "GDPR export file exists",
+    "ok": true,
+    "detail": ""
+  }
+]

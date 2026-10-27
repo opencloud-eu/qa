@@ -1,0 +1,62 @@
+[
+  {
+    "name": "permissions on for-lynn.txt",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "permissions on for-group",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "permissions on link-folder",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "permissions on drop",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "user share keeps role and expiration",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "links keep type and url",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "lynn sees the user share",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "mary sees the group share",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "public link opens with password",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "public link refuses without password",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "edit link can upload",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "file drop accepts upload",
+    "ok": true,
+    "detail": ""
+  }
+]

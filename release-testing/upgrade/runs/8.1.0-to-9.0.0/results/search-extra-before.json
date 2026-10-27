@@ -1,0 +1,512 @@
+[
+  {
+    "id": "S1",
+    "user": "lynn",
+    "kql": "content:\"axolotldocx\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-report.docx"
+    ]
+  },
+  {
+    "id": "S2",
+    "user": "lynn",
+    "kql": "content:\"capybaraodt\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-letter.odt"
+    ]
+  },
+  {
+    "id": "S3",
+    "user": "lynn",
+    "kql": "content:\"pangolinpdf\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-paper.pdf"
+    ]
+  },
+  {
+    "id": "S4",
+    "user": "lynn",
+    "kql": "content:\"salamanderrtf\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-memo.rtf"
+    ]
+  },
+  {
+    "id": "S5",
+    "user": "lynn",
+    "kql": "tag:\"qa up tag with spaces\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-tags.txt"
+    ]
+  },
+  {
+    "id": "S6",
+    "user": "lynn",
+    "kql": "tag:\"qa-up-ünïcödé\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-tags.txt"
+    ]
+  },
+  {
+    "id": "S7",
+    "user": "lynn",
+    "kql": "tag:\"qa-up-标签\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-tags.txt"
+    ]
+  },
+  {
+    "id": "S8",
+    "user": "lynn",
+    "kql": "name:\"qa-up-mtime*\" AND mtime<2019-01-01",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-mtime-2018.txt"
+    ]
+  },
+  {
+    "id": "S9",
+    "user": "lynn",
+    "kql": "name:\"qa-up-mtime*\" AND mtime>=2022-01-01 AND mtime<2023-01-01",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-mtime-2022.txt"
+    ]
+  },
+  {
+    "id": "S10",
+    "user": "lynn",
+    "kql": "name:\"qa-up-paper*\" AND mtime<2017-01-01",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-paper.pdf"
+    ]
+  },
+  {
+    "id": "S11",
+    "user": "lynn",
+    "kql": "name:\"*camelcasereport*\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "CamelCaseReport.TXT"
+    ]
+  },
+  {
+    "id": "S12",
+    "user": "lynn",
+    "kql": "content:\"ocelotmixedcase\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "CamelCaseReport.TXT"
+    ]
+  },
+  {
+    "id": "S13",
+    "user": "lynn",
+    "kql": "name:\"*中文报告*\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-中文报告.txt"
+    ]
+  },
+  {
+    "id": "S14",
+    "user": "lynn",
+    "kql": "content:\"熊猫\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-中文报告.txt"
+    ]
+  },
+  {
+    "id": "S15",
+    "user": "lynn",
+    "kql": "name:\"*größe*\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-ümlaut-Größe.txt"
+    ]
+  },
+  {
+    "id": "S16",
+    "user": "lynn",
+    "kql": "content:\"straßenbahnfahrt\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-ümlaut-Größe.txt"
+    ]
+  },
+  {
+    "id": "S17",
+    "user": "lynn",
+    "kql": "name:\"qa-up-*\" AND mediatype:pdf",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-paper.pdf"
+    ]
+  },
+  {
+    "id": "S18",
+    "user": "lynn",
+    "kql": "name:\"qa-up-*\" AND mediatype:document",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-collab.md",
+      "qa-up-renamed.txt",
+      "qa-up-space-file.txt",
+      "qa-up-alan-before.txt",
+      "qa-up-link-before.txt",
+      "qa-up-mary-before.txt",
+      "qa-up-letter.odt",
+      "qa-up-lynn-before.txt",
+      "qa-up-report.docx",
+      "qa-up-mary-before.txt",
+      "qa-up-lynn-before.txt",
+      "qa-up-ümlaut-Größe.txt",
+      "qa-up-fav-removed.txt",
+      "qa-up-scope-outside.txt",
+      "qa-up-restore-now.txt",
+      "qa-up-shared-note.txt",
+      "qa-up-tags.txt",
+      "qa-up-fav-not.txt",
+      "qa-up-scope-inside.txt",
+      "qa-up-fav-doc.txt",
+      "qa-up-rename-after.txt",
+      "qa-up-中文报告.txt",
+      "qa-up-hidden-note.txt",
+      "qa-up-mtime-2018.txt",
+      "qa-up-mtime-2022.txt",
+      "qa-up-same-path.txt"
+    ]
+  },
+  {
+    "id": "S19",
+    "user": "lynn",
+    "kql": "content:\"marmothidden\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-hidden-note.txt"
+    ]
+  },
+  {
+    "id": "S20",
+    "user": "lynn",
+    "kql": "name:\".qa-up-hid*\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      ".qa-up-hidden"
+    ]
+  },
+  {
+    "id": "S21",
+    "user": "lynn",
+    "kql": "name:\"qa-up-rename-*\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-rename-after.txt"
+    ]
+  },
+  {
+    "id": "S22",
+    "user": "lynn",
+    "kql": "content:\"jaguarrename\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-rename-after.txt"
+    ]
+  },
+  {
+    "id": "S23",
+    "user": "lynn",
+    "kql": "content:\"ibexlive\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-same-path.txt"
+    ]
+  },
+  {
+    "id": "S24",
+    "user": "lynn",
+    "kql": "content:\"ibextrashed\"",
+    "ok": true,
+    "detail": "",
+    "got": []
+  },
+  {
+    "id": "S25",
+    "user": "lynn",
+    "kql": "name:\"qa-up-same-path*\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-same-path.txt"
+    ]
+  },
+  {
+    "id": "S26",
+    "user": "lynn",
+    "kql": "content:\"lemurtrashonly\"",
+    "ok": true,
+    "detail": "",
+    "got": []
+  },
+  {
+    "id": "S27",
+    "user": "lynn",
+    "kql": "content:\"okapirestore\"",
+    "ok": true,
+    "detail": "",
+    "got": []
+  },
+  {
+    "id": "S28",
+    "user": "lynn",
+    "kql": "content:\"dingorestorenow\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-restore-now.txt"
+    ]
+  },
+  {
+    "id": "S29",
+    "user": "lynn",
+    "kql": "is:favorite",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "fav-search.txt",
+      "qa-up-fav-doc.txt",
+      "qa-up-fav-folder"
+    ]
+  },
+  {
+    "id": "S30",
+    "user": "margaret",
+    "kql": "is:favorite",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-space-fav.txt"
+    ]
+  },
+  {
+    "id": "S31",
+    "user": "mary",
+    "kql": "is:favorite",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-shared-note.txt"
+    ]
+  },
+  {
+    "id": "S32",
+    "user": "lynn",
+    "kql": "name:\"qa-up-scope-*\" scope:0dfe246d-cff3-426c-a6ed-faebf75f790c$d1b0e209-05f2-42fc-a4ec-62e5a82bd510!aa406267-b6d7-4daa-8604-15031ed5d2b1",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-scope-folder",
+      "qa-up-scope-inside.txt"
+    ]
+  },
+  {
+    "id": "S33",
+    "user": "mary",
+    "kql": "content:\"geckoshared\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-shared-note.txt"
+    ]
+  },
+  {
+    "id": "S34",
+    "user": "mary",
+    "kql": "content:\"axolotldocx\"",
+    "ok": true,
+    "detail": "",
+    "got": []
+  },
+  {
+    "id": "S35",
+    "user": "lynn",
+    "kql": "content:\"kinkajouspace\"",
+    "ok": true,
+    "detail": "",
+    "got": []
+  },
+  {
+    "id": "S36",
+    "user": "margaret",
+    "kql": "content:\"kinkajouspace\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-space-doc.txt"
+    ]
+  },
+  {
+    "id": "S37",
+    "user": "margaret",
+    "kql": "content:\"tapirspacedocx\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-space-report.docx"
+    ]
+  },
+  {
+    "id": "S38",
+    "user": "margaret",
+    "kql": "tag:\"qa-up-spacetag\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-space-doc.txt"
+    ]
+  },
+  {
+    "id": "S39",
+    "user": "margaret",
+    "kql": "name:\"qa-up-search-space*\"",
+    "ok": true,
+    "detail": "",
+    "got": [
+      "qa-up-search-space"
+    ]
+  },
+  {
+    "id": "S40",
+    "user": "margaret",
+    "kql": "content:\"narwhaldisabled\"",
+    "ok": true,
+    "detail": "",
+    "got": []
+  },
+  {
+    "id": "P1",
+    "user": "lynn",
+    "kql": "is:favorite AND name:\"qa-up-fav*\"",
+    "ok": null,
+    "got": "search is:favorite AND name:\"qa-up-fav*\" → HTTP 400"
+  },
+  {
+    "id": "P2",
+    "user": "lynn",
+    "kql": "name:\"qa-up-fav*\" AND is:favorite",
+    "ok": null,
+    "got": [
+      "qa-up-fav-doc.txt",
+      "qa-up-fav-folder"
+    ]
+  },
+  {
+    "id": "P3",
+    "user": "lynn",
+    "kql": "is:favorite OR tag:\"qa-up-favtag\"",
+    "ok": null,
+    "got": "search is:favorite OR tag:\"qa-up-favtag\" → HTTP 400"
+  },
+  {
+    "id": "P4",
+    "user": "lynn",
+    "kql": "name:\"qa-up-fav*\" AND NOT is:favorite",
+    "ok": null,
+    "got": [
+      "qa-up-fav-not.txt",
+      "qa-up-fav-removed.txt"
+    ]
+  },
+  {
+    "id": "P5",
+    "user": "lynn",
+    "kql": "name:\"qa-up-scope-*\" AND scope:0dfe246d-cff3-426c-a6ed-faebf75f790c$d1b0e209-05f2-42fc-a4ec-62e5a82bd510!aa406267-b6d7-4daa-8604-15031ed5d2b1",
+    "ok": null,
+    "got": [
+      "qa-up-scope-folder",
+      "qa-up-scope-inside.txt"
+    ]
+  },
+  {
+    "id": "P6",
+    "user": "margaret",
+    "kql": "content:\"quetzalreadme\"",
+    "ok": null,
+    "got": [
+      "readme.md"
+    ]
+  },
+  {
+    "id": "P7",
+    "user": "margaret",
+    "kql": "name:\"readme*\"",
+    "ok": null,
+    "got": [
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md",
+      "readme.md"
+    ]
+  },
+  {
+    "id": "P8",
+    "user": "lynn",
+    "kql": "mediatype:folder AND NOT name:\"qa-up-*\"",
+    "ok": null,
+    "got": [
+      ".qa-up-hidden",
+      ".space",
+      ".space",
+      ".space",
+      ".space",
+      ".space",
+      ".space",
+      "Lynn Conway",
+      "docs",
+      "sub"
+    ]
+  }
+]
