@@ -264,7 +264,7 @@ COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml
 - `DECOMPOSEDS3_REGION=default`
 - `DECOMPOSEDS3_ACCESS_KEY=opencloud`
 - `DECOMPOSEDS3_SECRET_KEY=opencloud-secret-key`
-- `DECOMPOSEDS3_BUCKET=opencloud`
+- `DECOMPOSEDS3_BUCKET=opencloud-bucket`
 - `INSECURE=true`
 
 **Test Steps:**
