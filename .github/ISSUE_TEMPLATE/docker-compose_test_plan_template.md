@@ -290,7 +290,7 @@ COMPOSE_FILE=docker-compose.yml:storage/decomposeds3.yml:traefik/opencloud.yml
     --user "root" \
     --entrypoint="" \
     alpine/minio:latest-release \
-    sh -c "mkdir -p /data/opencloud && minio server --console-address ':9001' /data"
+    sh -c "mkdir -p /data/opencloud-bucket && minio server --console-address ':9001' /data"
 ```
 4. Verify that the MinIO container is running.
 5. Verify that OpenCloud connects to MinIO.
